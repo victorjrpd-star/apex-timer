@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apex Striker HUD - Transparent</title>
+  <title>Apex Striker HUD - Vertical Noir</title>
   <style>
     * {
       box-sizing: border-box;
@@ -13,49 +13,40 @@
       user-select: none;
     }
 
-    /* Ocultar banners de hosting */
-    div[class*="tiiny"], iframe[src*="tiiny"], #tiiny-badge, a[href*="tiiny.host"] {
-      display: none !important;
-      visibility: hidden !important;
-      height: 0 !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-
-    /* FONDO TOTALMENTE TRANSPARENTE */
     html, body {
-      background: transparent !important;
-      background-color: transparent !important;
+      background-color: #000000 !important;
+      background: #000000 !important;
       color: #ffffff;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       width: 100vw;
       min-height: 100vh;
-      padding: 6px;
+      padding: 10px;
       overflow-x: hidden;
     }
 
-    /* CONTENEDOR VERTICAL CON FONDO TRANSPARENTE */
+    /* CONTENEDOR VERTICAL ESTILO APEX */
     .hud-vertical-line {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      background-color: #000000;
+      border: 1px solid #ffffff;
       border-radius: 4px;
       width: 100%;
       max-width: 290px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      padding: 12px 10px;
+      padding: 14px 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,1);
     }
 
     /* CABECERA */
     .brand-header {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      padding-bottom: 6px;
+      gap: 6px;
+      border-bottom: 1px solid #222222;
+      padding-bottom: 8px;
     }
 
     .brand-top {
@@ -81,20 +72,20 @@
       font-size: 10px;
       font-weight: 800;
       letter-spacing: 0.8px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 2px 6px;
+      border: 1px solid #333333;
+      padding: 3px 8px;
       border-radius: 2px;
       color: #ffffff;
-      background: rgba(0, 0, 0, 0.3);
+      background: #0d0d0d;
       white-space: nowrap;
     }
 
-    /* VISOR CENTRAL */
+    /* VISOR CENTRAL GIGANTE */
     .timer-card {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: #050505;
+      border: 1px solid #333333;
       border-radius: 4px;
-      padding: 10px 4px;
+      padding: 12px 6px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -106,7 +97,7 @@
       font-size: 11px;
       font-weight: 900;
       letter-spacing: 1.5px;
-      color: #aaaaaa;
+      color: #888888;
       text-transform: uppercase;
     }
 
@@ -132,25 +123,25 @@
       font-size: 9px;
       font-weight: 800;
       letter-spacing: 1px;
-      color: #aaaaaa;
+      color: #777777;
       text-transform: uppercase;
     }
 
     select, input[type="number"] {
-      background: rgba(0, 0, 0, 0.5);
+      background: #0a0a0a;
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid #333333;
       border-radius: 3px;
       padding: 8px 10px;
       font-size: 12px;
       font-weight: 700;
       outline: none;
       width: 100%;
-      transition: all 0.25s ease;
+      transition: border-color 0.2s ease;
     }
 
     select option {
-      background: #111111;
+      background: #0a0a0a;
       color: #ffffff;
     }
 
@@ -158,6 +149,7 @@
       border-color: #ffffff;
     }
 
+    /* ANIMACIÓN SUAVE TECHNO */
     .animated-panel {
       display: flex;
       flex-direction: column;
@@ -185,7 +177,7 @@
       text-align: center;
     }
 
-    /* BOTONES */
+    /* BOTONES APILADOS */
     .btn-stack {
       display: flex;
       flex-direction: column;
@@ -195,7 +187,7 @@
 
     .btn {
       width: 100%;
-      background: transparent;
+      background: #000000;
       color: #ffffff;
       border: 1px solid #ffffff;
       border-radius: 3px;
@@ -221,7 +213,7 @@
     .btn-danger {
       border-color: #ff0000;
       color: #ff0000;
-      background: rgba(255, 0, 0, 0.05);
+      background: #100000;
     }
 
     .btn-danger:active {
@@ -535,7 +527,7 @@
 
       if (mode === "BASIC") {
         phaseTag.textContent = "MODO LIBRE";
-        phaseTag.style.color = "#aaaaaa";
+        phaseTag.style.color = "#888888";
         digits.style.color = "#ffffff";
         rBadge.textContent = "BÁSICO";
         eBadge.textContent = "LIBRE";
