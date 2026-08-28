@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Striker HUD - Transparent</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      user-select: none;
+    }
+
+    /* Ocultar banners de hosting */
+    div[class*="tiiny"], iframe[src*="tiiny"], #tiiny-badge, a[href*="tiiny.host"] {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    /* FONDO TOTALMENTE TRANSPARENTE */
+    html, body {
+      background: transparent !important;
+      background-color: transparent !important;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100vw;
+      min-height: 100vh;
+      padding: 6px;
+      overflow-x: hidden;
+    }
+
+    /* CONTENEDOR VERTICAL CON FONDO TRANSPARENTE */
+    .hud-vertical-line {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 4px;
+      width: 100%;
+      max-width: 290px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 10px;
+    }
+
+    /* CABECERA */
+    .brand-header {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 6px;
+    }
+
+    .brand-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-tag {
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: #ffffff;
+    }
+
+    .hud-status-badges {
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 2px 6px;
+      border-radius: 2px;
+      color: #ffffff;
+      background: rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
+    }
+
+    /* VISOR CENTRAL */
+    .timer-card {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      padding: 10px 4px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timer-phase {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      color: #aaaaaa;
+      text-transform: uppercase;
+    }
+
+    .timer-digits {
+      font-family: monospace, -apple-system;
+      font-size: 52px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #ffffff;
+      line-height: 1;
+      margin: 4px 0;
+    }
+
+    /* CAMPOS Y SELECTORES */
+    .input-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+    }
+
+    label {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #aaaaaa;
+      text-transform: uppercase;
+    }
+
+    select, input[type="number"] {
+      background: rgba(0, 0, 0, 0.5);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      outline: none;
+      width: 100%;
+      transition: all 0.25s ease;
+    }
+
+    select option {
+      background: #111111;
+      color: #ffffff;
+    }
+
+    select:focus, input[type="number"]:focus {
+      border-color: #ffffff;
+    }
+
+    .animated-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+      max-height: 500px;
+      opacity: 1;
+    }
+
+    .animated-panel.hidden {
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .inline-duo {
+      display: flex;
+      gap: 6px;
+    }
+
+    .inline-duo input {
+      text-align: center;
+    }
+
+    /* BOTONES */
+    .btn-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      width: 100%;
+      background: transparent;
+      color: #ffffff;
+      border: 1px solid #ffffff;
+      border-radius: 3px;
+      padding: 12px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary {
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid #ffffff;
+    }
+
+    .btn-primary:active {
+      background: #cccccc;
+    }
+
+    .btn-danger {
+      border-color: #ff0000;
+      color: #ff0000;
+      background: rgba(255, 0, 0, 0.05);
+    }
+
+    .btn-danger:active {
+      background: #ff0000;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hud-vertical-line">
+    <div class="brand-header">
+      <div class="brand-top">
+        <div class="brand-tag">APEX HUD</div>
+      </div>
+      <div class="hud-status-badges">
+        <div id="roundBadge" class="badge">R: 1 / 1</div>
+        <div id="exerciseBadge" class="badge">EJ: 1 / 1</div>
+      </div>
+    </div>
+
+    <div class="timer-card">
+      <div id="displayPhase" class="timer-phase">LISTO</div>
+      <div id="displayDigits" class="timer-digits">03:00</div>
+    </div>
+
+    <div class="input-field">
+      <label>MODALIDAD</label>
+      <select id="mainMode" onchange="toggleMode()">
+        <option value="BASIC">MODO BÁSICO (LIBRE)</option>
+        <option value="FORMULA">MODO FÓRMULA (CIRCUITO)</option>
+      </select>
+    </div>
+
+    <div id="basicPanel" class="animated-panel">
+      <div class="input-field">
+        <label>DURACIÓN (MIN / SEG)</label>
+        <div class="inline-duo">
+          <input type="number" id="basicMin" min="0" max="99" value="3" placeholder="Min" onchange="updateBasicConfig()">
+          <input type="number" id="basicSec" min="0" max="59" value="00" placeholder="Seg" onchange="updateBasicConfig()">
+        </div>
+      </div>
+    </div>
+
+    <div id="formulaPanel" class="animated-panel hidden">
+      <div class="input-field">
+        <label>1. TOTAL ROUNDS</label>
+        <input type="number" id="fRounds" min="1" max="50" value="3" onchange="resetTimer()">
+      </div>
+
+      <div class="input-field">
+        <label>2. EJERCICIOS POR ROUND</label>
+        <input type="number" id="fExercises" min="1" max="20" value="4" onchange="resetTimer()">
+      </div>
+
+      <div class="input-field">
+        <label>3. TIEMPO POR EJERCICIO (SEG)</label>
+        <input type="number" id="fWorkTime" min="5" max="600" value="45" onchange="resetTimer()">
+      </div>
+
+      <div class="input-field">
+        <label>4. DESCANSO ENTRE EJERCICIOS (SEG)</label>
+        <input type="number" id="fRestExTime" min="0" max="300" value="15" onchange="resetTimer()">
+      </div>
+
+      <div class="input-field">
+        <label>5. DESCANSO ENTRE ROUNDS (SEG)</label>
+        <input type="number" id="fRestRoundTime" min="0" max="600" value="60" onchange="resetTimer()">
+      </div>
+    </div>
+
+    <div class="input-field">
+      <label>SISTEMA DE AUDIO</label>
+      <select id="audioMode">
+        <option value="VOICE_BELL">VOZ + CAMPANA</option>
+        <option value="BELL_ONLY">SOLO CAMPANA</option>
+        <option value="BEEP_ONLY">SOLO PITOS</option>
+        <option value="MUTE">SILENCIO TOTAL</option>
+      </select>
+    </div>
+
+    <div class="btn-stack">
+      <button id="startBtn" class="btn btn-primary" onclick="toggleStart()">INICIAR</button>
+      <button class="btn btn-danger" onclick="resetTimer()">RESET</button>
+    </div>
+  </div>
+
+  <script>
+    let isRunning = false;
+    let timerInterval = null;
+    let mode = "BASIC";
+    
+    let curRound = 1;
+    let totRounds = 3;
+    let curExercise = 1;
+    let totExercises = 4;
+    
+    let timeWork = 45;
+    let timeRestEx = 15;
+    let timeRestRound = 60;
+    
+    let currentPhase = "WORK";
+    let remainingSeconds = 180;
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playTone(freq, type, duration) {
+      const aMode = document.getElementById("audioMode").value;
+      if (aMode === "MUTE") return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function ringBell() {
+      const aMode = document.getElementById("audioMode").value;
+      if (aMode === "MUTE" || aMode === "BEEP_ONLY") return;
+      playTone(850, "triangle", 1.2);
+      setTimeout(() => playTone(850, "triangle", 1.0), 120);
+    }
+
+    function playBeep() {
+      const aMode = document.getElementById("audioMode").value;
+      if (aMode === "MUTE") return;
+      playTone(440, "sine", 0.15);
+    }
+
+    function playHighBeep() {
+      const aMode = document.getElementById("audioMode").value;
+      if (aMode === "MUTE") return;
+      playTone(880, "sine", 0.35);
+    }
+
+    function speak(text) {
+      const aMode = document.getElementById("audioMode").value;
+      if (aMode !== "VOICE_BELL") return;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'es-ES';
+        utterance.rate = 1.1;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    function toggleMode() {
+      mode = document.getElementById("mainMode").value;
+      const bPanel = document.getElementById("basicPanel");
+      const fPanel = document.getElementById("formulaPanel");
+
+      if (mode === "BASIC") {
+        bPanel.classList.remove("hidden");
+        fPanel.classList.add("hidden");
+      } else {
+        bPanel.classList.add("hidden");
+        fPanel.classList.remove("hidden");
+      }
+      resetTimer();
+    }
+
+    function updateBasicConfig() {
+      if (mode === "BASIC") {
+        resetTimer();
+      }
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      mode = document.getElementById("mainMode").value;
+      document.getElementById("startBtn").textContent = "INICIAR";
+      document.getElementById("startBtn").classList.add("btn-primary");
+
+      if (mode === "BASIC") {
+        const m = parseInt(document.getElementById("basicMin").value) || 0;
+        const s = parseInt(document.getElementById("basicSec").value) || 0;
+        remainingSeconds = (m * 60) + s;
+        currentPhase = "BASIC";
+      } else {
+        curRound = 1;
+        curExercise = 1;
+        totRounds = parseInt(document.getElementById("fRounds").value) || 1;
+        totExercises = parseInt(document.getElementById("fExercises").value) || 1;
+        timeWork = parseInt(document.getElementById("fWorkTime").value) || 10;
+        timeRestEx = parseInt(document.getElementById("fRestExTime").value) || 0;
+        timeRestRound = parseInt(document.getElementById("fRestRoundTime").value) || 0;
+
+        currentPhase = "WORK";
+        remainingSeconds = timeWork;
+      }
+
+      updateDisplay();
+    }
+
+    function toggleStart() {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      if (isRunning) {
+        pauseTimer();
+      } else {
+        startTimer();
+      }
+    }
+
+    function startTimer() {
+      if (remainingSeconds <= 0) return;
+      isRunning = true;
+      document.getElementById("startBtn").textContent = "PAUSAR";
+      document.getElementById("startBtn").classList.remove("btn-primary");
+
+      if (mode === "FORMULA" && currentPhase === "WORK" && remainingSeconds === timeWork) {
+        ringBell();
+        speak(`Round ${curRound}. Ejercicio ${curExercise}.`);
+      }
+
+      timerInterval = setInterval(() => {
+        if (remainingSeconds > 0) {
+          remainingSeconds--;
+          if (remainingSeconds <= 3 && remainingSeconds > 0) {
+            playBeep();
+          }
+          updateDisplay();
+        } else {
+          handlePhaseTransition();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      isRunning = false;
+      clearInterval(timerInterval);
+      document.getElementById("startBtn").textContent = "CONTINUAR";
+      document.getElementById("startBtn").classList.add("btn-primary");
+    }
+
+    function handlePhaseTransition() {
+      clearInterval(timerInterval);
+      playHighBeep();
+
+      if (mode === "BASIC") {
+        ringBell();
+        speak("Tiempo completado.");
+        resetTimer();
+        return;
+      }
+
+      if (currentPhase === "WORK") {
+        if (curExercise >= totExercises) {
+          if (curRound >= totRounds) {
+            ringBell();
+            speak("Circuito finalizado. Excelente trabajo.");
+            resetTimer();
+            return;
+          } else {
+            currentPhase = "REST_ROUND";
+            remainingSeconds = timeRestRound;
+            ringBell();
+            speak("Fin del round. Descanso.");
+          }
+        } else {
+          if (timeRestEx > 0) {
+            currentPhase = "REST_EX";
+            remainingSeconds = timeRestEx;
+            playHighBeep();
+            speak("Cambio de ejercicio.");
+          } else {
+            curExercise++;
+            currentPhase = "WORK";
+            remainingSeconds = timeWork;
+            speak(`Ejercicio ${curExercise}`);
+          }
+        }
+      } else if (currentPhase === "REST_EX") {
+        curExercise++;
+        currentPhase = "WORK";
+        remainingSeconds = timeWork;
+        speak(`Ejercicio ${curExercise}`);
+      } else if (currentPhase === "REST_ROUND") {
+        curRound++;
+        curExercise = 1;
+        currentPhase = "WORK";
+        remainingSeconds = timeWork;
+        ringBell();
+        speak(`Round ${curRound}. Ejercicio 1.`);
+      }
+
+      updateDisplay();
+      startTimer();
+    }
+
+    function updateDisplay() {
+      const min = Math.floor(remainingSeconds / 60);
+      const sec = remainingSeconds % 60;
+      document.getElementById("displayDigits").textContent = 
+        `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
+
+      const phaseTag = document.getElementById("displayPhase");
+      const digits = document.getElementById("displayDigits");
+      const rBadge = document.getElementById("roundBadge");
+      const eBadge = document.getElementById("exerciseBadge");
+
+      if (mode === "BASIC") {
+        phaseTag.textContent = "MODO LIBRE";
+        phaseTag.style.color = "#aaaaaa";
+        digits.style.color = "#ffffff";
+        rBadge.textContent = "BÁSICO";
+        eBadge.textContent = "LIBRE";
+      } else {
+        rBadge.textContent = `R: ${curRound} / ${totRounds}`;
+        eBadge.textContent = `EJ: ${curExercise} / ${totExercises}`;
+
+        if (currentPhase === "WORK") {
+          phaseTag.textContent = `EJERCICIO ${curExercise} ACTIVO`;
+          phaseTag.style.color = "#ffffff";
+          digits.style.color = "#ffffff";
+        } else if (currentPhase === "REST_EX") {
+          phaseTag.textContent = "CAMBIO / DESCANSO";
+          phaseTag.style.color = "#ff4444";
+          digits.style.color = "#ff4444";
+        } else if (currentPhase === "REST_ROUND") {
+          phaseTag.textContent = "DESCANSO DE ROUND";
+          phaseTag.style.color = "#ff0000";
+          digits.style.color = "#ff0000";
+        }
+      }
+    }
+
+    resetTimer();
+  </script>
+</body>
+</html>
