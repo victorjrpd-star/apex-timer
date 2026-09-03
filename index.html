@@ -4,9 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#0c0c0c">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Crono Apex">
   <title>Crono Apex Tactical</title>
+
+  <!-- Enlace al Manifest para Instalación Nativa -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3112/3112941.png">
+
   <style>
     :root {
       --bg: #0c0c0c;
@@ -22,12 +29,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background: var(--bg); color: var(--text); padding: 14px; max-width: 600px; margin: 0 auto; user-select: none; }
     
-    /* Header */
+    /* Header Principal */
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
-    .main-title { font-size: 1.3rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; }
+    .main-title { font-size: 1.35rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; }
     .main-title span { color: var(--accent); }
     
-    /* Botón Minimalista de Cámara */
     .cam-btn-header {
       background: #202020; border: 1px solid #333; color: #fff; width: 44px; height: 44px;
       border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer;
@@ -87,9 +93,10 @@
       border: none; border-radius: 8px; cursor: pointer; letter-spacing: 1px;
     }
     .btn-main { background: var(--accent); color: #fff; }
+    .btn-main:active { filter: brightness(0.85); }
     .btn-sub { background: #222; color: #bbb; max-width: 95px; }
 
-    /* MÓDULO DE CÁMARA (FULLSCREEN OVERLAY) */
+    /* MÓDULO DE CÁMARA */
     .camera-modal {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: #000; z-index: 1000; flex-direction: column; justify-content: space-between;
@@ -101,7 +108,6 @@
       object-fit: cover; z-index: 1;
     }
 
-    /* HUD del Crono sobre la Cámara */
     .cam-hud-top {
       position: relative; z-index: 2; padding: 16px; display: flex; justify-content: space-between;
       align-items: flex-start; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
@@ -124,7 +130,6 @@
       align-items: center; justify-content: center; cursor: pointer;
     }
 
-    /* Barra Inferior Cámara */
     .cam-hud-bottom {
       position: relative; z-index: 2; padding: 24px; display: flex; flex-direction: column;
       align-items: center; gap: 12px; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
@@ -170,6 +175,7 @@
 </head>
 <body>
 
+  <!-- Audio Inaudible de Fondo -->
   <audio id="silentAudio" loop playsinline preload="auto">
     <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA" type="audio/wav">
   </audio>
@@ -253,7 +259,7 @@
   <div class="modal-overlay" id="saveVideoModal">
     <div class="modal-box">
       <h2>Evidencia Lista</h2>
-      <p id="saveVideoText">¿Deseas guardar este video en la memoria del dispositivo o descartarlo?</p>
+      <p id="saveVideoText">¿Deseas guardar este clip en tu galería o descartarlo?</p>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-cancel" onclick="discardVideo()">Descartar</button>
         <button class="modal-btn modal-btn-save" onclick="saveVideo()">Guardar Video</button>
@@ -274,6 +280,17 @@
   </div>
 
   <script>
+    // 0. REGISTRO INMEDIATO DEL SERVICE WORKER (Para instalación nativa pura)
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        self.addEventListener('install', e => self.skipWaiting());
+        self.addEventListener('activate', e => clients.claim());
+        self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
+      `;
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+    }
+
     // 1. CARGA DE 60 CLASES
     const niveles = ["Iniciado", "Intermedio", "Avanzado", "Apex", "Apex+"];
     const pilares = ["Condición Física", "Técnica", "Sparring"];
@@ -300,7 +317,7 @@
       sel.appendChild(opt);
     });
 
-    // 2. CONFIGURACIÓN
+    // 2. CONFIGURACIÓN DE TIEMPOS
     const configNiveles = {
       iniciado:   { name: "Iniciados", work: 60,  pause: 60, active: true },
       intermedio: { name: "Intermedio", work: 90,  pause: 30, active: true },
@@ -325,7 +342,7 @@
       window.speechSynthesis.speak(u);
     }
 
-    // 3. WORKER PRINCIPAL
+    // 3. WORKER DE RELOJ
     const workerBlob = new Blob([`
       let timer = null;
       self.onmessage = function(e) {
@@ -502,7 +519,7 @@
       if (sec === 57) speak("Siguiente round, todos en tres, dos, uno");
     }
 
-    // 4. MÓDULO DE CÁMARA TÁCTICA & GRABACIÓN HD
+    // 4. MÓDULO DE CÁMARA (audio: false para no interferir con Spotify)
     let mediaStream = null;
     let mediaRecorder = null;
     let recordedChunks = [];
@@ -515,20 +532,19 @@
     async function openCamera() {
       document.getElementById("cameraModal").classList.add("active");
       try {
-        // Solicitar HD (1080p) con cámara trasera preferida
         const constraints = {
           video: {
             facingMode: { ideal: "environment" },
             width: { ideal: 1920 },
             height: { ideal: 1080 }
           },
-          audio: true
+          audio: false // Permite reproducir música de fondo en tu Redmi sin interrupción
         };
         mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
         const videoElem = document.getElementById("cameraFeed");
         videoElem.srcObject = mediaStream;
       } catch (err) {
-        alert("No se pudo acceder a la cámara. Asegúrate de otorgar los permisos necesarios.");
+        alert("No se pudo acceder a la cámara. Asegúrate de dar permisos.");
         closeCamera();
       }
     }
@@ -551,7 +567,7 @@
       recordedChunks = [];
       clipLimitSeconds = parseInt(document.getElementById("clipDurationSelect").value, 10);
       
-      const options = { mimeType: 'video/webm;codecs=vp8,opus' };
+      const options = { mimeType: 'video/webm;codecs=vp8' };
       try {
         mediaRecorder = new MediaRecorder(mediaStream, options);
       } catch (e) {
@@ -571,7 +587,6 @@
       const counter = document.getElementById("recCounter");
       counter.classList.add("active");
 
-      // Temporizador de corte automático
       recordInterval = setInterval(() => {
         const elapsed = Math.floor((performance.now() - recordStartTime) / 1000);
         counter.textContent = `REC 00:${elapsed.toString().padStart(2, '0')} / 00:${clipLimitSeconds.toString().padStart(2, '0')}`;
