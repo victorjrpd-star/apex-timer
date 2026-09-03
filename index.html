@@ -10,9 +10,9 @@
   <meta name="apple-mobile-web-app-title" content="Crono Apex">
   <title>Crono Apex Tactical</title>
 
-  <!-- Enlace al Manifest para Instalación Nativa -->
+  <!-- Enlace al Manifest y al Icono Oficial Local -->
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3112/3112941.png">
+  <link rel="icon" type="image/png" href="icon.png">
 
   <style>
     :root {
@@ -519,7 +519,7 @@
       if (sec === 57) speak("Siguiente round, todos en tres, dos, uno");
     }
 
-    // 4. MÓDULO DE CÁMARA (audio: false para no interferir con Spotify)
+    // 4. MÓDULO DE CÁMARA (audio: false para no interferir con música de fondo)
     let mediaStream = null;
     let mediaRecorder = null;
     let recordedChunks = [];
@@ -538,13 +538,13 @@
             width: { ideal: 1920 },
             height: { ideal: 1080 }
           },
-          audio: false // Permite reproducir música de fondo en tu Redmi sin interrupción
+          audio: false
         };
         mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
         const videoElem = document.getElementById("cameraFeed");
         videoElem.srcObject = mediaStream;
       } catch (err) {
-        alert("No se pudo acceder a la cámara. Asegúrate de dar permisos.");
+        alert("No se pudo acceder a la cámara. Asegúrate de otorgar los permisos necesarios.");
         closeCamera();
       }
     }
