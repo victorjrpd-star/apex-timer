@@ -30,18 +30,43 @@
     .main-title { font-size: 1.3rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; }
     .main-title span { color: var(--accent); }
     
-    .cam-btn-header {
-      background: #1c1c1c; border: 1px solid #333; color: #fff; width: 42px; height: 42px;
+    .header-actions { display: flex; gap: 6px; align-items: center; }
+    .action-btn-header {
+      background: #1c1c1c; border: 1px solid #333; color: #fff; width: 40px; height: 40px;
       border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer;
     }
-    .cam-btn-header svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2; }
-    .cam-btn-header:active { background: var(--accent); }
+    .action-btn-header svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
+    .action-btn-header:active { background: var(--accent); }
+    .action-btn-header.active-setting { border-color: var(--accent); background: #1a0808; }
 
     .selector-wrap { margin-bottom: 10px; }
     select {
       width: 100%; padding: 10px 12px; font-size: 0.88rem; font-weight: 700; background: var(--card-bg); color: #fff;
       border: 1px solid var(--border); border-radius: 8px; outline: none; appearance: none;
     }
+
+    /* Panel de Configuración Desplegable */
+    .settings-panel {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px;
+      margin-bottom: 10px; display: none; flex-direction: column; gap: 10px;
+    }
+    .settings-panel.open { display: flex; }
+    .setting-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
+    .setting-row span { color: var(--text-sub); font-size: 0.75rem; }
+    
+    /* Toggle Switch Personalizado */
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider-toggle {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #262626; transition: .3s; border-radius: 24px; border: 1px solid #333;
+    }
+    .slider-toggle:before {
+      position: absolute; content: ""; height: 18px; width: 18px; left: 2px; bottom: 2px;
+      background-color: white; transition: .3s; border-radius: 50%;
+    }
+    input:checked + .slider-toggle { background-color: var(--accent); }
+    input:checked + .slider-toggle:before { transform: translateX(20px); }
 
     .levels-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
     .level-btn {
@@ -72,10 +97,13 @@
     .time-big { font-size: 3.5rem; font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1; margin: 2px 0; color: #fff; }
     .exercise-current { font-size: 0.88rem; color: var(--text-sub); font-weight: 600; min-height: 18px; }
 
+    /* Línea de Tiempo Deslizante (Con soporte de bloqueo táctico) */
     .scrubber-container {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
       padding: 8px 12px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 4px;
+      transition: opacity 0.3s;
     }
+    .scrubber-container.locked { opacity: 0.35; pointer-events: none; }
     .scrubber-header {
       display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted);
     }
@@ -175,7 +203,6 @@
     .hud-time { font-size: 1.5rem; font-weight: 900; font-variant-numeric: tabular-nums; color: #fff; line-height: 1; }
     .hud-phase { font-size: 0.65rem; font-weight: 700; color: #aaa; text-transform: uppercase; margin-bottom: 2px; }
 
-    /* HUD Minimalista y Dinámico en Cámara */
     .cam-live-hud {
       background: rgba(12, 12, 12, 0.85); border: 1px solid rgba(255,255,255,0.15);
       padding: 6px 10px; border-radius: 8px; backdrop-filter: blur(6px); max-width: 240px;
@@ -239,9 +266,39 @@
 
   <div class="header">
     <div class="main-title">Crono <span>Apex Tactical</span></div>
-    <button class="cam-btn-header" onclick="openCamera()" title="Cámara Táctica">
-      <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-    </button>
+    <div class="header-actions">
+      <button class="action-btn-header" id="settingsToggleBtn" onclick="toggleSettings()" title="Configuración de Voz y Controles">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+      <button class="action-btn-header" onclick="openCamera()" title="Cámara Táctica">
+        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Panel de Configuración Rápida (Voz, Silencio y Modo Estudio) -->
+  <div class="settings-panel" id="settingsPanel">
+    <div class="setting-row">
+      <div>Bloquear Modo Estudio <br><span>(Desactiva barra deslizante en sala)</span></div>
+      <label class="switch">
+        <input type="checkbox" id="lockScrubberCheck" onchange="toggleScrubberLock(this.checked)">
+        <span class="slider-toggle"></span>
+      </label>
+    </div>
+    <div class="setting-row">
+      <div>Avisos de Voz (Sintetizador) <br><span>(Alertas de cuenta atrás 3s)</span></div>
+      <label class="switch">
+        <input type="checkbox" id="voiceToggleCheck" checked onchange="toggleVoice(this.checked)">
+        <span class="slider-toggle"></span>
+      </label>
+    </div>
+    <div class="setting-row">
+      <div>Audio Keep-Alive (Silencio) <br><span>(Evita suspensión en móviles)</span></div>
+      <label class="switch">
+        <input type="checkbox" id="audioKeepCheck" checked onchange="toggleKeepAlive(this.checked)">
+        <span class="slider-toggle"></span>
+      </label>
+    </div>
   </div>
 
   <div class="selector-wrap">
@@ -278,7 +335,7 @@
   </div>
 
   <!-- Línea de Tiempo Deslizante (0 a 50 min) -->
-  <div class="scrubber-container">
+  <div class="scrubber-container" id="scrubberContainer">
     <div class="scrubber-header">
       <span>Línea de Tiempo · Sesión</span>
       <span class="tag-mode" id="scrubberPosLabel">00:00 / 50:00</span>
@@ -506,13 +563,43 @@
       'Apex+':      { id: 'apex_plus',  name: "Apex +",    active: true, prevIdx: -1 }
     };
 
+    let settingsOpen = false;
+    let voiceEnabled = true;
+    let keepAliveEnabled = true;
+    let scrubberLocked = false;
+
+    function toggleSettings() {
+      settingsOpen = !settingsOpen;
+      const panel = document.getElementById("settingsPanel");
+      const btn = document.getElementById("settingsToggleBtn");
+      panel.classList.toggle("open", settingsOpen);
+      btn.classList.toggle("active-setting", settingsOpen);
+    }
+
+    function toggleScrubberLock(isLocked) {
+      scrubberLocked = isLocked;
+      const container = document.getElementById("scrubberContainer");
+      container.classList.toggle("locked", scrubberLocked);
+    }
+
+    function toggleVoice(enabled) {
+      voiceEnabled = enabled;
+      if (!enabled) window.speechSynthesis.cancel();
+    }
+
+    function toggleKeepAlive(enabled) {
+      keepAliveEnabled = enabled;
+      if (!enabled) silentAudio.pause();
+      else if (!silentAudio.paused) keepAudioAlive();
+    }
+
     const silentAudio = document.getElementById('silentAudio');
     function keepAudioAlive() {
-      if (silentAudio.paused) silentAudio.play().catch(() => {});
+      if (keepAliveEnabled && silentAudio.paused) silentAudio.play().catch(() => {});
     }
 
     function speak(text) {
-      if (!('speechSynthesis' in window)) return;
+      if (!voiceEnabled || !('speechSynthesis' in window)) return;
       keepAudioAlive();
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
@@ -800,6 +887,7 @@
     }
 
     function onScrub(val) {
+      if (scrubberLocked) return;
       const scrubSec = parseInt(val, 10);
       if (isRunning) {
         worker.postMessage('stop');
@@ -829,7 +917,6 @@
       const taskIniciado = selSesion.niveles["Iniciado"];
       const clockBox = document.getElementById("clockBox");
 
-      // Control visual sutil del Asalto 5 en Cuerda (Sprint)
       const isR5 = (totalSec >= 480 && totalSec < 600);
       if (isR5) {
         clockBox.classList.add("sprint-active");
@@ -837,7 +924,6 @@
         clockBox.classList.remove("sprint-active");
       }
 
-      // Actualizar HUD minimalista flotante en cámara si está activa
       const liveStatusElem = document.getElementById("hudLiveStatus");
       const liveTaskElem = document.getElementById("hudLiveTask");
 
@@ -930,7 +1016,7 @@
     };
 
     function evaluarVoz(sec, isRest, fase) {
-      if (isRest) return;
+      if (isRest || !voiceEnabled) return;
 
       if (sec === 57 && configNiveles['Iniciado'].active) speak("Iniciados, pausa en tres, dos, uno");
 
@@ -956,6 +1042,7 @@
     }
 
     function evaluarDescanso(sec) {
+      if (!voiceEnabled) return;
       if (sec === 0) speak("Todos, descanso en tres, dos, uno");
       if (sec === 57) speak("Siguiente asalto, todos en tres, dos, uno");
     }
