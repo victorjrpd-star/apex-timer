@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Crono Apex">
-  <title>Crono Apex Tactical V6</title>
+  <title>Crono Apex Tactical V7</title>
 
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon.png">
@@ -24,7 +24,7 @@
       --text-sub: #aaaaaa;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background: var(--bg); color: var(--text-main); padding: 12px; max-width: 600px; margin: 0 auto; user-select: none; }
+    html, body { background: var(--bg); color: var(--text-main); padding: 12px; max-width: 600px; margin: 0 auto; user-select: none; overscroll-behavior-y: none; }
     
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
     .main-title { font-size: 1.3rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; }
@@ -103,9 +103,7 @@
     .scrubber-container {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
       padding: 8px 12px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 4px;
-      transition: opacity 0.3s;
     }
-    .scrubber-container.locked { opacity: 0.35; pointer-events: none; }
     .scrubber-header {
       display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted);
     }
@@ -150,8 +148,6 @@
       transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.45s ease;
     }
     .slot-current { top: 0; transform: translateY(0); opacity: 1; }
-    .slot-next { top: 40px; transform: translateY(0); opacity: 0.7; }
-    .slot-exit { top: 0; transform: translateY(-38px); opacity: 0; }
 
     .lane-task-desc {
       font-size: 0.82rem; font-weight: 800; color: #ffffff; line-height: 1.25;
@@ -165,31 +161,8 @@
       font-size: 0.6rem; text-transform: uppercase; font-weight: 900; background: #222; color: #fff; padding: 1px 4px; border-radius: 3px; display: inline-flex; align-items: center; gap: 3px;
     }
     .lane-biomech-label svg { width: 10px; height: 10px; stroke: var(--accent); fill: none; }
-    
-    .lane-next-row {
-      font-size: 0.7rem; color: #777777; font-weight: 500; display: flex; gap: 4px; align-items: center;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .lane-next-label { font-weight: 800; text-transform: uppercase; color: #555555; font-size: 0.62rem; }
 
-    /* Galería Local Táctica (24h) */
-    .gallery-section {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-top: 15px;
-    }
-    .gallery-title { font-size: 0.8rem; font-weight: 900; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-    .gallery-grid { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
-    .gallery-item {
-      min-width: 110px; height: 75px; background: #000; border: 1px solid #333; border-radius: 6px;
-      position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 4px; cursor: pointer;
-    }
-    .gallery-item video { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; opacity: 0.6; }
-    .gallery-item-footer { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; }
-    .gallery-time { font-size: 0.6rem; font-weight: 800; color: #fff; background: rgba(0,0,0,0.6); padding: 1px 4px; border-radius: 3px; }
-    .gallery-actions-btns { display: flex; gap: 4px; }
-    .g-btn { background: var(--accent); border: none; color: #fff; width: 22px; height: 22px; border-radius: 4px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .g-btn.del { background: #333; }
-
-    .controls-wrap { display: flex; gap: 10px; margin-top: 10px; }
+    .controls-wrap { display: flex; gap: 10px; }
     .btn {
       flex: 1; padding: 14px; font-size: 0.95rem; font-weight: 900; text-transform: uppercase;
       border: none; border-radius: 8px; cursor: pointer; letter-spacing: 1px;
@@ -227,10 +200,6 @@
     .hud-live-desc { font-size: 0.7rem; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .cam-controls-top { display: flex; align-items: center; gap: 6px; }
-    .select-limit {
-      background: rgba(20, 20, 20, 0.85); color: #fff; border: 1px solid rgba(255,255,255,0.3);
-      padding: 6px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; outline: none;
-    }
     .btn-close-cam {
       background: rgba(20, 20, 20, 0.85); border: 1px solid rgba(255,255,255,0.3);
       color: #fff; width: 36px; height: 36px; border-radius: 6px; display: flex;
@@ -280,12 +249,8 @@
 </head>
 <body>
 
-  <audio id="silentAudio" loop playsinline preload="auto">
-    <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA" type="audio/wav">
-  </audio>
-
   <div class="header">
-    <div class="main-title">Crono <span>Apex Tactical</span> V6</div>
+    <div class="main-title">Crono <span>Apex Tactical</span> V7</div>
     <div class="header-actions">
       <button class="action-btn-header" id="settingsToggleBtn" onclick="toggleSettings()" title="Configuración">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -301,13 +266,6 @@
       <div>Avisos de Voz (Sintetizador) <br><span>(Alertas de cuenta atrás 3s)</span></div>
       <label class="switch">
         <input type="checkbox" id="voiceToggleCheck" checked onchange="toggleVoice(this.checked)">
-        <span class="slider-toggle"></span>
-      </label>
-    </div>
-    <div class="setting-row">
-      <div>Audio Keep-Alive (Silencio) <br><span>(Evita suspensión en móviles)</span></div>
-      <label class="switch">
-        <input type="checkbox" id="audioKeepCheck" checked onchange="toggleKeepAlive(this.checked)">
         <span class="slider-toggle"></span>
       </label>
     </div>
@@ -369,21 +327,12 @@
     <button class="btn btn-sub" onclick="openResetModal()">Reset</button>
   </div>
 
-  <!-- Galería Táctica Interna (24h) -->
-  <div class="gallery-section" id="gallerySection" style="display: none;">
-    <div class="gallery-title">
-      <span>Galería Táctica (Sesión Actual)</span>
-      <span id="galleryCount" style="font-size:0.65rem; color:var(--accent);">0 Clips</span>
-    </div>
-    <div class="gallery-grid" id="galleryGrid"></div>
-  </div>
-
   <!-- Modal Identidad Coach -->
   <div class="modal-overlay" id="coachModal">
     <div class="modal-box">
       <h2>Registro de Instructor</h2>
-      <p>Ingresa tu nombre de coach para firmar la sesión y las evidencias tácticas:</p>
-      <input type="text" id="coachNameInput" class="coach-input" placeholder="Ej. Coach Víctor" autocomplete="off">
+      <p>Escribe aquí tu nombre de coach para firmar la sesión y las evidencias tácticas:</p>
+      <input type="text" id="coachNameInput" class="coach-input" placeholder="ESCRIBE AQUÍ TU NOMBRE" autocomplete="off">
       <div class="modal-actions">
         <button class="modal-btn modal-btn-save" onclick="saveCoachIdentity()">Continuar</button>
       </div>
@@ -401,7 +350,7 @@
     </div>
   </div>
 
-  <!-- Cámara Táctica V6 (Fluida + HUD Translúcido + Firma Coach) -->
+  <!-- Cámara Táctica V7 (30s Fijos + HUD Minimalista sin Cuadros) -->
   <div class="camera-modal" id="cameraModal">
     <video id="cameraFeed" autoplay playsinline muted></video>
     <canvas id="renderCanvas"></canvas>
@@ -415,18 +364,11 @@
         <div class="cam-active-lanes-hud" id="camActiveLanesHud"></div>
       </div>
       <div class="cam-controls-top">
-        <select class="select-limit" id="clipDurationSelect">
-          <option value="10">10 Segundos</option>
-          <option value="20">20 Segundos</option>
-          <option value="30" selected>30s (Clan Apex)</option>
-          <option value="60">1 Minuto</option>
-          <option value="0">Modo Libre (Sin Límite)</option>
-        </select>
         <button class="btn-close-cam" onclick="closeCamera()">✕</button>
       </div>
     </div>
     <div class="cam-hud-bottom">
-      <div class="rec-counter" id="recCounter">REC 00:00</div>
+      <div class="rec-counter" id="recCounter">REC 00:00 / 00:30</div>
       <button class="shutter-btn" id="shutterBtn" onclick="toggleRecord()">
         <div class="shutter-core" id="shutterCore"></div>
       </button>
@@ -436,10 +378,10 @@
   <div class="modal-overlay" id="saveVideoModal">
     <div class="modal-box" style="text-align: center;">
       <h2>Evidencia Táctica Lista</h2>
-      <p id="saveVideoText" style="text-align: center;">¿Deseas guardar este clip en tu galería local de la app?</p>
+      <p id="saveVideoText" style="text-align: center;">¿Deseas guardar este clip de 30s en tu galería?</p>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-cancel" onclick="discardVideo()">Descartar</button>
-        <button class="modal-btn modal-btn-save" onclick="saveVideoAndKeep()">Guardar Clip</button>
+        <button class="modal-btn modal-btn-save" onclick="saveVideo()">Guardar Video</button>
       </div>
     </div>
   </div>
@@ -456,7 +398,6 @@
   </div>
 
   <script>
-    // Gestión de Sesión Coach
     let currentCoach = localStorage.getItem('apex_coach_name') || '';
 
     function checkCoachAndProceed(actionCallback) {
@@ -471,7 +412,7 @@
     function saveCoachIdentity() {
       const val = document.getElementById("coachNameInput").value.trim();
       if (!val) {
-        alert("Por favor ingresa un nombre de coach válido.");
+        alert("Por favor ingresa un nombre válido.");
         return;
       }
       currentCoach = val.toUpperCase();
@@ -490,75 +431,6 @@
       alert("Sesión de coach cerrada con éxito.");
     }
 
-    // Galería Local con expiración 24h
-    let localGallery = [];
-    try {
-      const stored = JSON.parse(localStorage.getItem('apex_tactical_gallery') || '[]');
-      const now = Date.now();
-      localGallery = stored.filter(item => (now - item.timestamp) < 86400000); // 24h
-      localStorage.setItem('apex_tactical_gallery', JSON.stringify(localGallery));
-    } catch(e) { localGallery = []; }
-
-    function renderGallery() {
-      const section = document.getElementById("gallerySection");
-      const grid = document.getElementById("galleryGrid");
-      const count = document.getElementById("galleryCount");
-      
-      if (localGallery.length === 0) {
-        section.style.display = "none";
-        return;
-      }
-      section.style.display = "block";
-      count.textContent = `${localGallery.length} Clips`;
-      grid.innerHTML = "";
-
-      localGallery.forEach((item, idx) => {
-        const div = document.createElement("div");
-        div.className = "gallery-item";
-        div.innerHTML = `
-          <video src="${item.url}" muted></video>
-          <div class="gallery-item-footer">
-            <span class="gallery-time">${item.timeStr}</span>
-            <div class="gallery-actions-btns">
-              <button class="g-btn" onclick="shareClip(${idx})" title="Compartir">📤</button>
-              <button class="g-btn del" onclick="deleteClip(${idx})" title="Eliminar">✕</button>
-            </div>
-          </div>
-        `;
-        grid.appendChild(div);
-      });
-    }
-
-    async function shareClip(idx) {
-      const item = localGallery[idx];
-      try {
-        const response = await fetch(item.url);
-        const blob = await response.blob();
-        const file = new File([blob], `CronoApex_${item.timeStr.replace(/:/g,'-')}.mp4`, { type: 'video/mp4' });
-        
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            files: [file],
-            title: 'Evidencia Táctica - Crono Apex',
-            text: `Clip táctico registrado por Coach ${currentCoach}`
-          });
-        } else if (navigator.share) {
-          await navigator.share({ title: 'Evidencia Táctica', url: item.url });
-        } else {
-          alert("Tu navegador no soporta compartir archivos directamente. Descárgalo desde la app.");
-        }
-      } catch (err) {
-        alert("No se pudo compartir el archivo directamente.");
-      }
-    }
-
-    function deleteClip(idx) {
-      localGallery.splice(idx, 1);
-      localStorage.setItem('apex_tactical_gallery', JSON.stringify(localGallery));
-      renderGallery();
-    }
-
-    // Base de datos de clases (Maestra completa)
     const sesionesData = [
       {
         id: "cf_sem1", title: "Condición Física - Semana 1", pilar: "Condición Física", semana: 1,
@@ -590,7 +462,6 @@
 
     let settingsOpen = false;
     let voiceEnabled = true;
-    let keepAliveEnabled = true;
     let scrubberLocked = false;
 
     function toggleSettings() {
@@ -601,16 +472,10 @@
       btn.classList.toggle("active-setting", settingsOpen);
     }
 
-    function toggleScrubberLock(isLocked) { scrubberLocked = isLocked; }
     function toggleVoice(enabled) { voiceEnabled = enabled; if (!enabled) window.speechSynthesis.cancel(); }
-    function toggleKeepAlive(enabled) { keepAliveEnabled = enabled; if (!enabled) silentAudio.pause(); else if (!silentAudio.paused) keepAudioAlive(); }
-
-    const silentAudio = document.getElementById('silentAudio');
-    function keepAudioAlive() { if (keepAliveEnabled && silentAudio.paused) silentAudio.play().catch(() => {}); }
 
     function speak(text) {
       if (!voiceEnabled || !('speechSynthesis' in window)) return;
-      keepAudioAlive();
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
       u.lang = 'es-LA'; u.rate = 1.25; u.pitch = 1.0;
@@ -709,7 +574,7 @@
       const sesion = sesionesData[0];
       const taskData = sesion.niveles[k] || sesion.niveles["Iniciado"];
       
-      let workSec = 60, status = "TRABAJO", rem = 0;
+      let workSec = 60, rem = 0;
       if (faseTipo === "APERTURA") rem = workSec - secInCycle;
       else if (faseTipo === "APROX1" || faseTipo === "APROX2" || faseTipo === "CIERRE") rem = remGeneral;
       else if (faseTipo === "CUERPO") rem = isRestRound ? Math.max(0, 60 - secInCycle) : (workSec - secInCycle);
@@ -747,7 +612,6 @@
     }
 
     function togglePlay() {
-      keepAudioAlive();
       if (isRunning) {
         worker.postMessage('stop');
         elapsedBeforePause += (performance.now() - startTime);
@@ -769,7 +633,6 @@
     function confirmReset() {
       closeResetModal();
       worker.postMessage('stop');
-      silentAudio.pause();
       isRunning = false; startTime = 0; elapsedBeforePause = 0; lastSecondReported = -1;
       document.getElementById("btnStart").textContent = "Iniciar Clase";
       document.getElementById("btnStart").style.background = "var(--accent)";
@@ -829,15 +692,14 @@
       actualizarVista(totalSec, false);
     };
 
-    // Cámara Táctica V6 (Optimizada sin lag + HUD Translúcido 75% + Firma Coach)
+    // Cámara Táctica V7 (30s Fijos + HUD Translúcido Puro sin Rectángulos)
     let mediaStream = null;
     let mediaRecorder = null;
     let recordedChunks = [];
     let isRecording = false;
     let recordStartTime = 0;
     let recordInterval = null;
-    let clipLimitSeconds = 30;
-    let isFreeMode = false;
+    const clipLimitSeconds = 30;
     let latestBlobUrl = null;
     let canvasAnimId = null;
     let renderCanvas = null;
@@ -885,17 +747,13 @@
 
     function startRecording() {
       recordedChunks = [];
-      const limitVal = parseInt(document.getElementById("clipDurationSelect").value, 10);
-      isFreeMode = (limitVal === 0);
-      clipLimitSeconds = isFreeMode ? 0 : limitVal;
-      
       const videoElement = document.getElementById("cameraFeed");
       renderCanvas = document.getElementById("renderCanvas");
       renderCanvas.width = videoElement.videoWidth || 1280;
       renderCanvas.height = videoElement.videoHeight || 720;
       renderCtx = renderCanvas.getContext('2d', { alpha: false });
 
-      const canvasStream = renderCanvas.captureStream(24); // Tasa ligera para evitar lag
+      const canvasStream = renderCanvas.captureStream(24);
       const audioTracks = mediaStream.getAudioTracks();
       const mixedStream = new MediaStream([
         ...canvasStream.getVideoTracks(),
@@ -919,29 +777,24 @@
         if (renderCtx && videoElement.readyState >= 2) {
           renderCtx.drawImage(videoElement, 0, 0, renderCanvas.width, renderCanvas.height);
           
-          // HUD Translúcido (75% Opacidad) e incrustación de nombre de Coach
+          // HUD Pura Tipografía (Sin cuadros ni rectángulos de fondo)
           renderCtx.save();
-          renderCtx.fillStyle = "rgba(12, 12, 12, 0.75)";
-          renderCtx.strokeStyle = "rgba(229, 9, 20, 0.6)";
-          renderCtx.lineWidth = 3;
-          
-          const boxX = 30, boxY = 30, boxW = 460, boxH = 170, radius = 12;
-          renderCtx.beginPath();
-          renderCtx.roundRect(boxX, boxY, boxW, boxH, radius);
-          renderCtx.fill();
-          renderCtx.stroke();
+          renderCtx.shadowColor = "rgba(0, 0, 0, 0.9)";
+          renderCtx.shadowBlur = 6;
+          renderCtx.shadowOffsetX = 2;
+          renderCtx.shadowOffsetY = 2;
 
           renderCtx.fillStyle = "#aaaaaa";
-          renderCtx.font = "bold 20px -apple-system, sans-serif";
-          renderCtx.fillText((document.getElementById("hudPhase").textContent || "APERTURA").toUpperCase(), boxX + 20, boxY + 35);
+          renderCtx.font = "bold 22px -apple-system, sans-serif";
+          renderCtx.fillText((document.getElementById("hudPhase").textContent || "APERTURA").toUpperCase(), 50, 70);
 
           renderCtx.fillStyle = "#ffffff";
-          renderCtx.font = "900 52px -apple-system, monospace";
-          renderCtx.fillText(document.getElementById("hudTime").textContent || "00:00", boxX + 20, boxY + 95);
+          renderCtx.font = "900 64px -apple-system, monospace";
+          renderCtx.fillText(document.getElementById("hudTime").textContent || "00:00", 50, 140);
 
-          renderCtx.fillStyle = "var(--accent, #e50914)";
-          renderCtx.font = "bold 16px -apple-system, sans-serif";
-          renderCtx.fillText(`COACH: ${currentCoach}`, boxX + 20, boxY + 140);
+          renderCtx.fillStyle = "#e50914";
+          renderCtx.font = "bold 20px -apple-system, sans-serif";
+          renderCtx.fillText(`COACH: ${currentCoach}`, 50, 180);
           
           renderCtx.restore();
         }
@@ -951,12 +804,8 @@
 
       recordInterval = setInterval(() => {
         const elapsed = Math.floor((performance.now() - recordStartTime) / 1000);
-        if (isFreeMode) {
-          document.getElementById("recCounter").textContent = `REC 00:${Math.floor(elapsed/60).toString().padStart(2,'0')}:${(elapsed%60).toString().padStart(2, '0')}`;
-        } else {
-          document.getElementById("recCounter").textContent = `REC 00:${elapsed.toString().padStart(2, '0')} / 00:${clipLimitSeconds.toString().padStart(2, '0')}`;
-          if (elapsed >= clipLimitSeconds) stopRecording(true);
-        }
+        document.getElementById("recCounter").textContent = `REC 00:${elapsed.toString().padStart(2, '0')} / 00:${clipLimitSeconds.toString().padStart(2, '0')}`;
+        if (elapsed >= clipLimitSeconds) stopRecording(true);
       }, 500);
     }
 
@@ -979,13 +828,19 @@
       }
     }
 
-    function saveVideoAndKeep() {
+    function saveVideo() {
       if (!latestBlobUrl) return;
-      const now = Date.now();
-      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      localGallery.push({ url: latestBlobUrl, timestamp: now, timeStr: timeStr });
-      localStorage.setItem('apex_tactical_gallery', JSON.stringify(localGallery));
-      renderGallery();
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = latestBlobUrl;
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+      a.download = `CronoApex_V7_${timestamp}.mp4`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(latestBlobUrl);
+      }, 100);
       document.getElementById("saveVideoModal").classList.remove("open");
     }
 
@@ -995,7 +850,6 @@
     }
 
     initLanesDOM();
-    renderGallery();
     actualizarVista(0, false);
   </script>
 </body>
