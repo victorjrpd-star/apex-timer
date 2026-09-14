@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Crono Apex">
-  <title>Crono Apex Tactical V10</title>
+  <title>Crono Apex Tactical V11</title>
 
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon.png">
@@ -101,7 +101,7 @@
     .time-big { font-size: 3.8rem; font-weight: 950; font-variant-numeric: tabular-nums; line-height: 1; margin: 4px 0; color: #fff; letter-spacing: -1px; }
     .exercise-current { font-size: 0.88rem; color: var(--text-sub); font-weight: 700; min-height: 18px; }
 
-    /* Línea de tiempo Estilo Apex (Esculpida, con regla de marcas y esbelta) */
+    /* Línea de tiempo Estilo Apex Esculpida */
     .scrubber-container {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
       padding: 12px 14px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;
@@ -172,7 +172,7 @@
     .btn-main:active { filter: brightness(0.85); }
     .btn-sub { background: #1c1c1c; color: #bbb; max-width: 95px; border: 1px solid #2a2a2a; }
 
-    /* Cámara Táctica V10 */
+    /* Cámara Táctica V11 */
     .camera-modal {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: #000; z-index: 1000; flex-direction: column; justify-content: space-between;
@@ -206,21 +206,36 @@
     .rec-counter.active { display: block; }
     
     .cam-bottom-bar {
-      display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; max-width: 320px;
+      display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; max-width: 340px;
     }
     
     .shutter-btn {
       width: 72px; height: 72px; border-radius: 50%; border: 4px solid #ffffff;
       display: flex; align-items: center; justify-content: center; cursor: pointer; background: #ffffff; transition: 0.2s;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5); flex-shrink: 0;
     }
     .shutter-core { width: 56px; height: 56px; border-radius: 50%; background: #ffffff; transition: all 0.2s; }
     .shutter-btn.recording .shutter-core { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); }
 
-    .select-limit-apex {
-      background: rgba(18, 18, 18, 0.85); color: #fff; border: 1px solid rgba(255,255,255,0.25);
-      padding: 10px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 900; outline: none; backdrop-filter: blur(8px);
+    /* Tambor Rotativo / Píldora Deslizable inercial */
+    .duration-drum-wrap {
+      display: flex; align-items: center; background: rgba(18, 18, 18, 0.85); border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 12px; padding: 4px 8px; backdrop-filter: blur(8px); height: 48px; gap: 6px;
     }
+    .duration-scroll {
+      display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; gap: 6px; max-width: 90px; align-items: center; padding: 2px;
+    }
+    .duration-scroll::-webkit-scrollbar { display: none; }
+    .drum-item {
+      scroll-snap-align: center; font-size: 0.75rem; font-weight: 950; color: #888; padding: 4px 8px; border-radius: 8px; cursor: pointer; white-space: nowrap; transition: 0.2s;
+    }
+    .drum-item.active { color: #fff; background: var(--accent); }
+
+    .manual-toggle-btn {
+      background: #222; border: 1px solid #444; color: #aaa; font-size: 0.65rem; font-weight: 900; text-transform: uppercase;
+      padding: 6px 8px; border-radius: 8px; cursor: pointer; white-space: nowrap; transition: 0.2s;
+    }
+    .manual-toggle-btn.active { background: #fff; color: #000; border-color: #fff; }
 
     .toast-alert {
       position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
@@ -260,7 +275,7 @@
   <div class="toast-alert" id="toastAlert">Acción completada</div>
 
   <div class="header">
-    <div class="main-title">Crono <span>Apex Tactical</span> V10</div>
+    <div class="main-title">Crono <span>Apex Tactical</span> V11</div>
     <div class="header-actions">
       <button class="action-btn-header" id="settingsToggleBtn" onclick="toggleSettings()" title="Configuración">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -280,7 +295,7 @@
       </label>
     </div>
     <div class="setting-row">
-      <div>Bloquear Línea de Tiempo <br><span>(Evita saltos accidentales en sala)</span></div>
+      <div>Bloquear Línea de Tiempo <br><span>(Sincronización fija al cronómetro)</span></div>
       <label class="switch">
         <input type="checkbox" id="lockScrubberCheck" onchange="toggleScrubberLock(this.checked)">
         <span class="slider-toggle"></span>
@@ -322,7 +337,7 @@
     <div class="exercise-current" id="exerciseLabel">Preparación</div>
   </div>
 
-  <!-- Línea de Tiempo Esculpida (Apex Style con anclaje magnético) -->
+  <!-- Línea de Tiempo Esculpida (Apex Style con Anclaje Bidireccional) -->
   <div class="scrubber-container" id="scrubberContainer">
     <div class="scrubber-header">
       <span>Línea de Tiempo · Sesión</span>
@@ -370,7 +385,7 @@
     </div>
   </div>
 
-  <!-- Cámara Táctica V10 (Acceso Descargas + Anclaje Ergonómico + HUD Cronómetros Niveles) -->
+  <!-- Cámara Táctica V11 (Carpeta Descargas + Tambor de Segundos + Modo Manual + HUD Niveles Activos) -->
   <div class="camera-modal" id="cameraModal">
     <video id="cameraFeed" autoplay playsinline muted></video>
     <canvas id="renderCanvas"></canvas>
@@ -383,8 +398,7 @@
         </div>
       </div>
       <div class="cam-controls-top">
-        <!-- Acceso directo a carpeta / descargas de la app -->
-        <button class="btn-cam-action" onclick="openDownloadsFolder()" title="Abrir Descargas / Galería">
+        <button class="btn-cam-action" onclick="openDownloadsFolder()" title="Abrir Carpeta de Descargas">
           <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
         </button>
         <button class="btn-cam-action" onclick="closeCamera()">✕</button>
@@ -394,13 +408,16 @@
     <div class="cam-hud-bottom">
       <div class="rec-counter" id="recCounter">REC 00:00 / 00:30</div>
       <div class="cam-bottom-bar">
-        <select class="select-limit-apex" id="clipDurationSelect">
-          <option value="10">10s</option>
-          <option value="20">20s</option>
-          <option value="30" selected>30s</option>
-          <option value="60">1m</option>
-          <option value="0">Libre</option>
-        </select>
+        <!-- Tambor Rotativo de Segundos + Botón Modo Manual -->
+        <div class="duration-drum-wrap" id="drumWrap">
+          <div class="duration-scroll" id="durationScroll">
+            <div class="drum-item" data-val="10">10s</div>
+            <div class="drum-item" data-val="20">20s</div>
+            <div class="drum-item active" data-val="30">30s</div>
+            <div class="drum-item" data-val="60">1m</div>
+          </div>
+          <button class="manual-toggle-btn" id="manualToggleBtn" onclick="toggleManualMode()">Libre</button>
+        </div>
         <button class="shutter-btn" id="shutterBtn" onclick="toggleRecord()">
           <div class="shutter-core" id="shutterCore"></div>
         </button>
@@ -433,6 +450,8 @@
   <script>
     let currentCoach = localStorage.getItem('apex_coach_name') || '';
     let scrubberLocked = false;
+    let selectedDuration = 30; // Predeterminado 30s
+    let isManualMode = false;
 
     function showToast(message) {
       const toast = document.getElementById("toastAlert");
@@ -473,16 +492,30 @@
     }
 
     function openDownloadsFolder() {
-      // Intenta abrir el administrador de descargas o un aviso para buscar en el sistema
-      showToast("Revisa tu carpeta de Descargas del dispositivo");
-      // Si el navegador soporta mostrar descargas
-      const a = document.createElement('a');
-      a.href = '#';
-      a.download = '';
-      try { a.click(); } catch(e){}
+      showToast("Carpeta de Descargas: Revisa tu galería o archivos");
     }
 
-    // BASE DE DATOS MAESTRA COMPLETA (Pilares, Semanas, Niveles, Biomecánica y Debate)
+    // Configuración del Tambor Rotativo de Duración
+    document.querySelectorAll('.drum-item').forEach(item => {
+      item.onclick = () => {
+        document.querySelectorAll('.drum-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        selectedDuration = parseInt(item.getAttribute('data-val'), 10);
+        isManualMode = false;
+        document.getElementById("manualToggleBtn").classList.remove("active");
+      };
+    });
+
+    function toggleManualMode() {
+      isManualMode = !isManualMode;
+      const btn = document.getElementById("manualToggleBtn");
+      btn.classList.toggle("active", isManualMode);
+      if (isManualMode) {
+        document.querySelectorAll('.drum-item').forEach(i => i.classList.remove('active'));
+      }
+    }
+
+    // BASE DE DATOS MAESTRA COMPLETA
     const sesionesData = [
       {
         id: "cf_sem1", title: "Condición Física - Semana 1", pilar: "Condición Física", semana: 1,
@@ -568,9 +601,7 @@
     let elapsedBeforePause = 0;
     let lastSecondReported = -1;
 
-    // Puntos de anclaje magnético (Bloques de la clase en segundos)
     const blockSnapPoints = [0, 600, 780, 960, 2640, 3000];
-
     const T_APERTURA_FIN = 10 * 60;
     const T_APROX1_FIN   = 13 * 60;
     const T_APROX2_FIN   = 16 * 60;
@@ -665,7 +696,7 @@
         const cuerpoSec = totalSec - T_APROX2_FIN;
         const roundSec = cuerpoSec % 420;
         if (isRestRound) {
-          rem = Math.max(0, 60 - roundSec);
+          rem = Math.max(0, 60 - (roundSec - 360));
           currentDesc = "Descanso Inter-Round";
         } else {
           rem = workSec - (roundSec % 120);
@@ -726,7 +757,6 @@
       if (scrubberLocked) return;
       let scrubSec = parseInt(val, 10);
       
-      // Anclaje Magnético Apex (Umbral de 10 segundos)
       for (const pt of blockSnapPoints) {
         if (Math.abs(scrubSec - pt) <= 10) {
           scrubSec = pt;
@@ -746,7 +776,11 @@
       document.getElementById("mainTime").textContent = formatted;
       document.getElementById("hudTime").textContent = formatted;
       document.getElementById("scrubberPosLabel").textContent = `${formatted} / 50:00`;
-      if (!isScrubbing) document.getElementById("sessionScrubber").value = totalSec;
+      
+      // Si está bloqueada, el cronómetro mueve la línea de tiempo de manera fija
+      if (scrubberLocked || !isScrubbing) {
+        document.getElementById("sessionScrubber").value = totalSec;
+      }
 
       const isR5 = (totalSec >= 480 && totalSec < 600);
       document.getElementById("clockBox").classList.toggle("sprint-active", isR5);
@@ -785,15 +819,13 @@
       actualizarVista(totalSec, false);
     };
 
-    // Cámara Táctica V10 (HUD con Cronómetros y Tareas Activas en tiempo real)
+    // Cámara Táctica V11 (Tambor de Segundos + HUD Niveles Activos en Tiempo Real)
     let mediaStream = null;
     let mediaRecorder = null;
     let recordedChunks = [];
     let isRecording = false;
     let recordStartTime = 0;
     let recordInterval = null;
-    let clipLimitSeconds = 30;
-    let isFreeMode = false;
     let latestBlobUrl = null;
     let canvasAnimId = null;
     let renderCanvas = null;
@@ -841,10 +873,6 @@
 
     function startRecording() {
       recordedChunks = [];
-      const limitVal = parseInt(document.getElementById("clipDurationSelect").value, 10);
-      isFreeMode = (limitVal === 0);
-      clipLimitSeconds = isFreeMode ? 0 : limitVal;
-
       const videoElement = document.getElementById("cameraFeed");
       renderCanvas = document.getElementById("renderCanvas");
       renderCanvas.width = videoElement.videoWidth || 1280;
@@ -893,9 +921,8 @@
           renderCtx.font = "bold 18px -apple-system, sans-serif";
           renderCtx.fillText(`COACH: ${currentCoach}`, 50, 145);
 
-          // Renderizar cronómetros y tareas en vivo de cada nivel activo sobre el video
+          // Renderizado de niveles activos con cronómetro y descripción en tiempo real
           let offsetY = 185;
-          const totalSec = Math.floor((elapsedBeforePause + (isRunning ? (performance.now() - startTime) : 0)) / 1000);
           for (let k in configNiveles) {
             const n = configNiveles[k];
             if (!n.active) continue;
@@ -916,11 +943,11 @@
 
       recordInterval = setInterval(() => {
         const elapsed = Math.floor((performance.now() - recordStartTime) / 1000);
-        if (isFreeMode) {
+        if (isManualMode) {
           document.getElementById("recCounter").textContent = `REC 00:${Math.floor(elapsed/60).toString().padStart(2,'0')}:${(elapsed%60).toString().padStart(2, '0')}`;
         } else {
-          document.getElementById("recCounter").textContent = `REC 00:${elapsed.toString().padStart(2, '0')} / 00:${clipLimitSeconds.toString().padStart(2, '0')}`;
-          if (elapsed >= clipLimitSeconds) stopRecording(true);
+          document.getElementById("recCounter").textContent = `REC 00:${elapsed.toString().padStart(2, '0')} / 00:${selectedDuration.toString().padStart(2, '0')}`;
+          if (elapsed >= selectedDuration) stopRecording(true);
         }
       }, 500);
     }
@@ -940,7 +967,7 @@
       if (this.promptSave && recordedChunks.length > 0) {
         const blob = new Blob(recordedChunks, { type: 'video/mp4' });
         latestBlobUrl = URL.createObjectURL(blob);
-        const durationText = isFreeMode ? "libre" : `${clipLimitSeconds}s`;
+        const durationText = isManualMode ? "libre" : `${selectedDuration}s`;
         document.getElementById("saveVideoText").textContent = `¿Deseas guardar este clip (${durationText}) en tu dispositivo?`;
         document.getElementById("saveVideoModal").classList.add("open");
       }
@@ -952,7 +979,7 @@
       a.style.display = "none";
       a.href = latestBlobUrl;
       const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-      a.download = `CronoApex_V10_${timestamp}.mp4`;
+      a.download = `CronoApex_V11_${timestamp}.mp4`;
       document.body.appendChild(a);
       a.click();
       setTimeout(() => {
