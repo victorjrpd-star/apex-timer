@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Crono Apex">
-  <title>Crono Apex Tactical</title>
+  <title>Crono Apex Tactical V5</title>
 
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon.png">
@@ -45,7 +45,6 @@
       border: 1px solid var(--border); border-radius: 8px; outline: none; appearance: none;
     }
 
-    /* Panel de Configuración Desplegable */
     .settings-panel {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px;
       margin-bottom: 10px; display: none; flex-direction: column; gap: 10px;
@@ -54,7 +53,6 @@
     .setting-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
     .setting-row span { color: var(--text-sub); font-size: 0.75rem; }
     
-    /* Toggle Switch Personalizado */
     .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
     .switch input { opacity: 0; width: 0; height: 0; }
     .slider-toggle {
@@ -67,6 +65,11 @@
     }
     input:checked + .slider-toggle { background-color: var(--accent); }
     input:checked + .slider-toggle:before { transform: translateX(20px); }
+
+    .btn-install {
+      background: #1c1c1c; border: 1px solid var(--accent); color: #fff; width: 100%; padding: 10px;
+      border-radius: 6px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; cursor: pointer; display: none;
+    }
 
     .levels-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
     .level-btn {
@@ -97,7 +100,6 @@
     .time-big { font-size: 3.5rem; font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1; margin: 2px 0; color: #fff; }
     .exercise-current { font-size: 0.88rem; color: var(--text-sub); font-weight: 600; min-height: 18px; }
 
-    /* Línea de Tiempo Deslizante (Con soporte de bloqueo táctico) */
     .scrubber-container {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
       padding: 8px 12px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 4px;
@@ -115,10 +117,6 @@
       -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%;
       background: var(--accent); border: 2px solid #fff; cursor: pointer; box-shadow: 0 0 6px rgba(229,9,20,0.6);
     }
-    .time-slider::-moz-range-thumb {
-      width: 18px; height: 18px; border-radius: 50%;
-      background: var(--accent); border: 2px solid #fff; cursor: pointer;
-    }
     .scrubber-ticks {
       display: flex; justify-content: space-between; font-size: 0.60rem; font-weight: 700; color: #555;
     }
@@ -126,13 +124,12 @@
     .lanes-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
     .lane-card {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px;
-      display: flex; flex-direction: column; gap: 4px; transition: opacity 0.2s;
+      display: flex; flex-direction: column; gap: 4px; transition: opacity 0.2s; cursor: pointer;
     }
+    .lane-card:hover { border-color: #444; }
     .lane-card.muted { opacity: 0.2; }
     
-    .lane-top-row {
-      display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;
-    }
+    .lane-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
     .lane-header-group { display: flex; align-items: center; gap: 8px; }
     .lane-name { font-size: 0.82rem; font-weight: 900; text-transform: uppercase; color: #fff; }
     
@@ -184,12 +181,30 @@
     .btn-main:active { filter: brightness(0.85); }
     .btn-sub { background: #1c1c1c; color: #bbb; max-width: 95px; border: 1px solid #2a2a2a; }
 
+    /* Modo Miniatura (Barra Flotante) */
+    .mini-bar {
+      display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      width: 92%; max-width: 450px; background: rgba(18, 18, 18, 0.92); border: 1px solid var(--accent);
+      border-radius: 30px; padding: 10px 18px; z-index: 9999; backdrop-filter: blur(10px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7); align-items: center; justify-content: space-between;
+    }
+    .mini-bar.active { display: flex; }
+    .app-hidden { display: none !important; }
+
+    .mini-info { display: flex; flex-direction: column; }
+    .mini-phase { font-size: 0.6rem; font-weight: 800; color: var(--accent); text-transform: uppercase; }
+    .mini-time { font-size: 1.2rem; font-weight: 900; color: #fff; font-variant-numeric: tabular-nums; }
+    .mini-actions { display: flex; gap: 8px; }
+    .mini-btn { background: #2a2a2a; border: none; color: #fff; padding: 6px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: 800; cursor: pointer; }
+    .mini-btn.accent { background: var(--accent); }
+
     .camera-modal {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: #000; z-index: 1000; flex-direction: column; justify-content: space-between;
     }
     .camera-modal.active { display: flex; }
     video#cameraFeed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+    canvas#renderCanvas { display: none; }
     
     .cam-hud-top {
       position: relative; z-index: 2; padding: 12px 16px; display: flex; justify-content: space-between;
@@ -203,12 +218,13 @@
     .hud-time { font-size: 1.5rem; font-weight: 900; font-variant-numeric: tabular-nums; color: #fff; line-height: 1; }
     .hud-phase { font-size: 0.65rem; font-weight: 700; color: #aaa; text-transform: uppercase; margin-bottom: 2px; }
 
+    .cam-active-lanes-hud { display: flex; flex-direction: column; gap: 4px; max-width: 260px; }
     .cam-live-hud {
       background: rgba(12, 12, 12, 0.85); border: 1px solid rgba(255,255,255,0.15);
-      padding: 6px 10px; border-radius: 8px; backdrop-filter: blur(6px); max-width: 240px;
+      padding: 5px 8px; border-radius: 6px; backdrop-filter: blur(6px);
     }
-    .hud-live-title { font-size: 0.6rem; font-weight: 900; color: var(--accent); text-transform: uppercase; margin-bottom: 1px; }
-    .hud-live-desc { font-size: 0.72rem; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .hud-live-title { font-size: 0.58rem; font-weight: 900; color: var(--accent); text-transform: uppercase; margin-bottom: 1px; display: flex; justify-content: space-between; }
+    .hud-live-desc { font-size: 0.7rem; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .cam-controls-top { display: flex; align-items: center; gap: 6px; }
     .select-limit {
@@ -244,14 +260,14 @@
     .modal-overlay.open { display: flex; }
     .modal-box {
       background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; padding: 20px;
-      max-width: 340px; width: 100%; text-align: center;
+      max-width: 360px; width: 100%; text-align: left; max-height: 80vh; overflow-y: auto;
     }
-    .modal-box h2 { font-size: 1.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #fff; }
-    .modal-box p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4; }
+    .modal-box h2 { font-size: 1.1rem; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; color: #fff; text-align: center; }
+    .modal-box p { font-size: 0.82rem; color: var(--text-sub); margin-bottom: 20px; line-height: 1.5; }
     .modal-actions { display: flex; gap: 10px; }
     .modal-btn {
       flex: 1; padding: 12px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
-      border: none; border-radius: 6px; cursor: pointer;
+      border: none; border-radius: 6px; cursor: pointer; text-align: center;
     }
     .modal-btn-danger { background: var(--accent); color: #fff; }
     .modal-btn-cancel { background: #2a2a2a; color: #ccc; }
@@ -264,112 +280,142 @@
     <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA" type="audio/wav">
   </audio>
 
-  <div class="header">
-    <div class="main-title">Crono <span>Apex Tactical</span></div>
-    <div class="header-actions">
-      <button class="action-btn-header" id="settingsToggleBtn" onclick="toggleSettings()" title="Configuración de Voz y Controles">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      </button>
-      <button class="action-btn-header" onclick="openCamera()" title="Cámara Táctica">
-        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      </button>
+  <div id="mainAppContainer">
+    <div class="header">
+      <div class="main-title">Crono <span>Apex Tactical</span> V5</div>
+      <div class="header-actions">
+        <button class="action-btn-header" id="settingsToggleBtn" onclick="toggleSettings()" title="Configuración">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+        <button class="action-btn-header" onclick="openCamera()" title="Cámara Táctica">
+          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="settings-panel" id="settingsPanel">
+      <div class="setting-row">
+        <div>Modo Miniatura <br><span>(Activa barra flotante de control)</span></div>
+        <label class="switch">
+          <input type="checkbox" id="miniModeCheck" onchange="toggleMiniMode(this.checked)">
+          <span class="slider-toggle"></span>
+        </label>
+      </div>
+      <div class="setting-row">
+        <div>Bloquear Modo Estudio <br><span>(Desactiva barra deslizante en sala)</span></div>
+        <label class="switch">
+          <input type="checkbox" id="lockScrubberCheck" onchange="toggleScrubberLock(this.checked)">
+          <span class="slider-toggle"></span>
+        </label>
+      </div>
+      <div class="setting-row">
+        <div>Avisos de Voz (Sintetizador) <br><span>(Alertas de cuenta atrás 3s)</span></div>
+        <label class="switch">
+          <input type="checkbox" id="voiceToggleCheck" checked onchange="toggleVoice(this.checked)">
+          <span class="slider-toggle"></span>
+        </label>
+      </div>
+      <div class="setting-row">
+        <div>Audio Keep-Alive (Silencio) <br><span>(Evita suspensión en móviles)</span></div>
+        <label class="switch">
+          <input type="checkbox" id="audioKeepCheck" checked onchange="toggleKeepAlive(this.checked)">
+          <span class="slider-toggle"></span>
+        </label>
+      </div>
+      <button class="btn-install" id="installAppBtn" onclick="installApp()">Instalar en este dispositivo</button>
+    </div>
+
+    <div class="selector-wrap">
+      <select id="classSelector" onchange="onClassChange()"></select>
+    </div>
+
+    <div class="levels-grid">
+      <div class="level-btn active" id="btn_iniciado" onclick="toggleNivel('Iniciado')">
+        <div class="level-title">Iniciados</div>
+        <div class="level-sub">1m / 1m P</div>
+      </div>
+      <div class="level-btn active" id="btn_intermedio" onclick="toggleNivel('Intermedio')">
+        <div class="level-title">Intermedio</div>
+        <div class="level-sub">1:15 / 1:30</div>
+      </div>
+      <div class="level-btn active" id="btn_avanzado" onclick="toggleNivel('Avanzado')">
+        <div class="level-title">Avanzado</div>
+        <div class="level-sub">1:30 / 30s P</div>
+      </div>
+      <div class="level-btn active" id="btn_apex" onclick="toggleNivel('Apex')">
+        <div class="level-title">Apex</div>
+        <div class="level-sub">1:45 / 15s P</div>
+      </div>
+      <div class="level-btn active" id="btn_apex_plus" onclick="toggleNivel('Apex+')">
+        <div class="level-title">Apex +</div>
+        <div class="level-sub">1:50 / 2m Cont.</div>
+      </div>
+    </div>
+
+    <div class="clock-display" id="clockBox">
+      <div class="phase-badge" id="phaseLabel">Apertura · Cuerda</div>
+      <div class="time-big" id="mainTime">00:00</div>
+      <div class="exercise-current" id="exerciseLabel">Preparación</div>
+    </div>
+
+    <div class="scrubber-container" id="scrubberContainer">
+      <div class="scrubber-header">
+        <span>Línea de Tiempo · Sesión</span>
+        <span class="tag-mode" id="scrubberPosLabel">00:00 / 50:00</span>
+      </div>
+      <input type="range" class="time-slider" id="sessionScrubber" min="0" max="3000" step="1" value="0" oninput="onScrub(this.value)">
+      <div class="scrubber-ticks">
+        <span>00:00 Cuerda</span>
+        <span>10:00 Aprox 1</span>
+        <span>13:00 Aprox 2</span>
+        <span>16:00 Cuerpo</span>
+        <span>44:00 Cierre</span>
+      </div>
+    </div>
+
+    <div class="lanes-list" id="lanesContainer"></div>
+
+    <div class="controls-wrap">
+      <button class="btn btn-main" id="btnStart" onclick="togglePlay()">Iniciar Clase</button>
+      <button class="btn btn-sub" onclick="openResetModal()">Reset</button>
     </div>
   </div>
 
-  <!-- Panel de Configuración Rápida (Voz, Silencio y Modo Estudio) -->
-  <div class="settings-panel" id="settingsPanel">
-    <div class="setting-row">
-      <div>Bloquear Modo Estudio <br><span>(Desactiva barra deslizante en sala)</span></div>
-      <label class="switch">
-        <input type="checkbox" id="lockScrubberCheck" onchange="toggleScrubberLock(this.checked)">
-        <span class="slider-toggle"></span>
-      </label>
+  <!-- Barra Flotante / Modo Miniatura -->
+  <div class="mini-bar" id="miniBar">
+    <div class="mini-info">
+      <span class="mini-phase" id="miniPhase">Apertura</span>
+      <span class="mini-time" id="miniTime">00:00</span>
     </div>
-    <div class="setting-row">
-      <div>Avisos de Voz (Sintetizador) <br><span>(Alertas de cuenta atrás 3s)</span></div>
-      <label class="switch">
-        <input type="checkbox" id="voiceToggleCheck" checked onchange="toggleVoice(this.checked)">
-        <span class="slider-toggle"></span>
-      </label>
-    </div>
-    <div class="setting-row">
-      <div>Audio Keep-Alive (Silencio) <br><span>(Evita suspensión en móviles)</span></div>
-      <label class="switch">
-        <input type="checkbox" id="audioKeepCheck" checked onchange="toggleKeepAlive(this.checked)">
-        <span class="slider-toggle"></span>
-      </label>
+    <div class="mini-actions">
+      <button class="mini-btn accent" id="miniPlayBtn" onclick="togglePlay()">Pausar</button>
+      <button class="mini-btn" onclick="exitMiniMode()">Maximizar</button>
     </div>
   </div>
 
-  <div class="selector-wrap">
-    <select id="classSelector" onchange="onClassChange()"></select>
-  </div>
-
-  <div class="levels-grid">
-    <div class="level-btn active" id="btn_iniciado" onclick="toggleNivel('Iniciado')">
-      <div class="level-title">Iniciados</div>
-      <div class="level-sub">1m / 1m P</div>
-    </div>
-    <div class="level-btn active" id="btn_intermedio" onclick="toggleNivel('Intermedio')">
-      <div class="level-title">Intermedio</div>
-      <div class="level-sub">1:15 / 1:30</div>
-    </div>
-    <div class="level-btn active" id="btn_avanzado" onclick="toggleNivel('Avanzado')">
-      <div class="level-title">Avanzado</div>
-      <div class="level-sub">1:30 / 30s P</div>
-    </div>
-    <div class="level-btn active" id="btn_apex" onclick="toggleNivel('Apex')">
-      <div class="level-title">Apex</div>
-      <div class="level-sub">1:45 / 15s P</div>
-    </div>
-    <div class="level-btn active" id="btn_apex_plus" onclick="toggleNivel('Apex+')">
-      <div class="level-title">Apex +</div>
-      <div class="level-sub">1:50 / 2m Cont.</div>
+  <!-- Modal Detalle Táctico por Nivel -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-box">
+      <h2 id="detailModalTitle">Detalle Táctico</h2>
+      <p id="detailModalContent">Cargando información...</p>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-save" onclick="closeDetailModal()">Cerrar</button>
+      </div>
     </div>
   </div>
 
-  <div class="clock-display" id="clockBox">
-    <div class="phase-badge" id="phaseLabel">Apertura · Cuerda</div>
-    <div class="time-big" id="mainTime">00:00</div>
-    <div class="exercise-current" id="exerciseLabel">Preparación</div>
-  </div>
-
-  <!-- Línea de Tiempo Deslizante (0 a 50 min) -->
-  <div class="scrubber-container" id="scrubberContainer">
-    <div class="scrubber-header">
-      <span>Línea de Tiempo · Sesión</span>
-      <span class="tag-mode" id="scrubberPosLabel">00:00 / 50:00</span>
-    </div>
-    <input type="range" class="time-slider" id="sessionScrubber" min="0" max="3000" step="1" value="0" oninput="onScrub(this.value)">
-    <div class="scrubber-ticks">
-      <span>00:00 Cuerda</span>
-      <span>10:00 Aprox 1</span>
-      <span>13:00 Aprox 2</span>
-      <span>16:00 Cuerpo</span>
-      <span>44:00 Cierre</span>
-    </div>
-  </div>
-
-  <div class="lanes-list" id="lanesContainer"></div>
-
-  <div class="controls-wrap">
-    <button class="btn btn-main" id="btnStart" onclick="togglePlay()">Iniciar Clase</button>
-    <button class="btn btn-sub" onclick="openResetModal()">Reset</button>
-  </div>
-
-  <!-- Cámara Táctica con HUD Minimalista Dinámico -->
+  <!-- Cámara Táctica con Grabación HD + Audio + Burnt-in Overlay -->
   <div class="camera-modal" id="cameraModal">
     <video id="cameraFeed" autoplay playsinline muted></video>
+    <canvas id="renderCanvas"></canvas>
+    
     <div class="cam-hud-top">
       <div class="cam-hud-left">
         <div class="cam-clock-pill">
           <div class="hud-phase" id="hudPhase">Apertura</div>
           <div class="hud-time" id="hudTime">00:00</div>
         </div>
-        <div class="cam-live-hud" id="camLiveHud">
-          <div class="hud-live-title" id="hudLiveStatus">TRABAJO</div>
-          <div class="hud-live-desc" id="hudLiveTask">--</div>
-        </div>
+        <div class="cam-active-lanes-hud" id="camActiveLanesHud"></div>
       </div>
       <div class="cam-controls-top">
         <select class="select-limit" id="clipDurationSelect">
@@ -377,23 +423,23 @@
           <option value="20">20 Segundos</option>
           <option value="30" selected>30s (Clan Apex)</option>
           <option value="60">1 Minuto</option>
+          <option value="0">Modo Libre (Sin Límite)</option>
         </select>
         <button class="btn-close-cam" onclick="closeCamera()">✕</button>
       </div>
     </div>
     <div class="cam-hud-bottom">
-      <div class="rec-counter" id="recCounter">REC 00:00 / 00:30</div>
+      <div class="rec-counter" id="recCounter">REC 00:00</div>
       <button class="shutter-btn" id="shutterBtn" onclick="toggleRecord()">
         <div class="shutter-core" id="shutterCore"></div>
       </button>
     </div>
   </div>
 
-  <!-- Modales -->
   <div class="modal-overlay" id="saveVideoModal">
-    <div class="modal-box">
-      <h2>Evidencia Lista</h2>
-      <p id="saveVideoText">¿Deseas guardar este clip en tu galería o descartarlo?</p>
+    <div class="modal-box" style="text-align: center;">
+      <h2>Evidencia Táctica Lista</h2>
+      <p id="saveVideoText" style="text-align: center;">¿Deseas guardar este clip en HD con audio y cronómetro integrado?</p>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-cancel" onclick="discardVideo()">Descartar</button>
         <button class="modal-btn modal-btn-save" onclick="saveVideo()">Guardar Video</button>
@@ -402,9 +448,9 @@
   </div>
 
   <div class="modal-overlay" id="resetModal">
-    <div class="modal-box">
+    <div class="modal-box" style="text-align: center;">
       <h2>¿Reiniciar Clase?</h2>
-      <p>Se detendrá el cronómetro y el tiempo de la sesión volverá a cero.</p>
+      <p style="text-align: center;">Se detendrá el cronómetro y el tiempo de la sesión volverá a cero.</p>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-cancel" onclick="closeResetModal()">Cancelar</button>
         <button class="modal-btn modal-btn-danger" onclick="confirmReset()">Reiniciar</button>
@@ -413,6 +459,24 @@
   </div>
 
   <script>
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btn = document.getElementById("installAppBtn");
+      if (btn) btn.style.display = "block";
+    });
+
+    async function installApp() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        document.getElementById("installAppBtn").style.display = "none";
+      }
+      deferredPrompt = null;
+    }
+
     if ('serviceWorker' in navigator) {
       const swCode = `
         self.addEventListener('install', e => self.skipWaiting());
@@ -423,7 +487,7 @@
       navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
     }
 
-    // BASE DE DATOS MAESTRA 100% ESTRICTA Y SINCRONIZADA
+    // BASE DE DATOS MAESTRA 100% COMPLETA Y SINCRONIZADA
     const sesionesData = [
       {
         id: "cf_sem1", title: "Condición Física - Semana 1", pilar: "Condición Física", semana: 1,
@@ -558,8 +622,8 @@
     const configNiveles = {
       'Iniciado':   { id: 'iniciado',   name: "Iniciados", active: true, prevIdx: -1 },
       'Intermedio': { id: 'intermedio', name: "Intermedio", active: true, prevIdx: -1 },
-      'Avanzado':   { id: 'avanzado',   name: "Avanzado",  active: true, prevIdx: -1 },
-      'Apex':       { id: 'apex',       name: "Apex",      active: true, prevIdx: -1 },
+      'Avanzado':   { id: 'avanzado',   name: "Avanzado",   active: true, prevIdx: -1 },
+      'Apex':       { id: 'apex',       name: "Apex",       active: true, prevIdx: -1 },
       'Apex+':      { id: 'apex_plus',  name: "Apex +",    active: true, prevIdx: -1 }
     };
 
@@ -567,6 +631,7 @@
     let voiceEnabled = true;
     let keepAliveEnabled = true;
     let scrubberLocked = false;
+    let miniModeActive = false;
 
     function toggleSettings() {
       settingsOpen = !settingsOpen;
@@ -574,6 +639,22 @@
       const btn = document.getElementById("settingsToggleBtn");
       panel.classList.toggle("open", settingsOpen);
       btn.classList.toggle("active-setting", settingsOpen);
+    }
+
+    function toggleMiniMode(active) {
+      miniModeActive = active;
+      const bar = document.getElementById("miniBar");
+      const mainApp = document.getElementById("mainAppContainer");
+      bar.classList.toggle("active", active);
+      mainApp.classList.toggle("app-hidden", active);
+      if (settingsOpen) toggleSettings();
+    }
+
+    function exitMiniMode() {
+      miniModeActive = false;
+      document.getElementById("miniModeCheck").checked = false;
+      document.getElementById("miniBar").classList.remove("active");
+      document.getElementById("mainAppContainer").classList.remove("app-hidden");
     }
 
     function toggleScrubberLock(isLocked) {
@@ -598,9 +679,25 @@
       if (keepAliveEnabled && silentAudio.paused) silentAudio.play().catch(() => {});
     }
 
+    let audioCtx = null;
+    let synthDestination = null;
+
+    function initAudioRouting() {
+      if (!audioCtx) {
+        try {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          synthDestination = audioCtx.createMediaStreamDestination();
+        } catch(e) {}
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
     function speak(text) {
       if (!voiceEnabled || !('speechSynthesis' in window)) return;
       keepAudioAlive();
+      initAudioRouting();
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
       u.lang = 'es-LA';
@@ -623,11 +720,11 @@
     let elapsedBeforePause = 0;
     let lastSecondReported = -1;
 
-    const T_APERTURA_FIN = 10 * 60; // 600s
-    const T_APROX1_FIN   = 13 * 60; // 780s
-    const T_APROX2_FIN   = 16 * 60; // 960s
-    const T_CUERPO_FIN   = 44 * 60; // 2640s
-    const T_CIERRE_FIN   = 50 * 60; // 3000s
+    const T_APERTURA_FIN = 10 * 60;
+    const T_APROX1_FIN   = 13 * 60;
+    const T_APROX2_FIN   = 16 * 60;
+    const T_CUERPO_FIN   = 44 * 60;
+    const T_CIERRE_FIN   = 50 * 60;
 
     function toggleNivel(k) {
       const n = configNiveles[k];
@@ -635,6 +732,25 @@
       document.getElementById(`btn_${n.id}`).classList.toggle('active', n.active);
       const totalSec = Math.floor((elapsedBeforePause + (isRunning ? (performance.now() - startTime) : 0)) / 1000);
       actualizarVista(totalSec, false);
+    }
+
+    function openDetailModal(nivelKey) {
+      const taskData = getTaskForLevel(nivelKey);
+      document.getElementById("detailModalTitle").textContent = `Nivel: ${nivelKey}`;
+      document.getElementById("detailModalContent").innerHTML = `
+        <strong>Cuerda / Asaltos:</strong> ${taskData.cuerda}<br><br>
+        <strong>Aprox 1 (Movilidad):</strong> ${taskData.aprox1}<br><br>
+        <strong>Aprox 2 (Activación):</strong> ${taskData.aprox2}<br><br>
+        <strong>Ejercicios del Cuerpo:</strong> ${taskData.ejercicios.join(" | ")}<br><br>
+        <strong>Foco Biomecánico:</strong> ${taskData.foco}<br><br>
+        <strong>Biomecánica Clave:</strong> ${taskData.biomecanica}<br><br>
+        <strong>Teoría y Debate:</strong> ${taskData.debate}
+      `;
+      document.getElementById("detailModal").classList.add("open");
+    }
+
+    function closeDetailModal() {
+      document.getElementById("detailModal").classList.remove("open");
     }
 
     function formatTime(s) {
@@ -662,6 +778,7 @@
         const card = document.createElement("div");
         card.id = `lane_${n.id}`;
         card.className = `lane-card ${n.active ? '' : 'muted'}`;
+        card.onclick = () => openDetailModal(k);
         card.innerHTML = `
           <div class="lane-top-row">
             <div class="lane-header-group">
@@ -702,7 +819,6 @@
       if (card) card.className = `lane-card ${n.active ? '' : 'muted'}`;
 
       const taskData = getTaskForLevel(k);
-
       let workSec = 60;
       if (faseTipo === "APERTURA") {
         if (k === 'Iniciado') workSec = 60;
@@ -717,20 +833,12 @@
         else if (k === 'Apex+') workSec = 120;
       }
 
-      let status = "TRABAJO";
-      let statusClass = "st-work";
-      let icon = "▶";
-      let rem = 0;
-
-      let tareaActual = "";
-      let biomecActual = taskData.biomecanica;
-      let tareaSiguiente = "";
-      let stateKeyIndex = roundIdx;
+      let status = "TRABAJO", statusClass = "st-work", icon = "▶", rem = 0;
+      let tareaActual = "", biomecActual = taskData.biomecanica, tareaSiguiente = "", stateKeyIndex = roundIdx;
 
       if (faseTipo === "APERTURA") {
         const roundNum = roundIdx + 1;
         const isR5Sprint = (roundNum === 5);
-
         if (secInCycle < workSec) {
           status = isR5Sprint ? "SPRINT R5" : "TRABAJO";
           statusClass = "st-work";
@@ -742,69 +850,34 @@
           icon = "⏸";
           rem = 120 - secInCycle;
         }
-
-        tareaActual = isR5Sprint ? `R5 SPRINT: Máxima Intensidad Individual` : `R${roundNum}: Cuerda Táctica · ${taskData.cuerda.split('.')[0]}`;
-        biomecActual = isR5Sprint ? "Despliegue de potencia anaeróbica individual sin reserva" : "Rebote elástico continuo, codos pegados a la cadera";
-        tareaSiguiente = roundNum < 5 ? `R${roundNum + 1}: Cuerda Táctica Progresiva` : "Aproximación 1: Movilidad y Postura";
-        stateKeyIndex = roundIdx;
+        tareaActual = isR5Sprint ? `R5 SPRINT: Máxima Intensidad` : `R${roundNum}: Cuerda Táctica`;
+        biomecActual = isR5Sprint ? "Despliegue de potencia anaeróbica" : "Rebote elástico continuo";
+        tareaSiguiente = roundNum < 5 ? `R${roundNum + 1}: Cuerda Táctica` : "Aproximación 1: Movilidad";
       } else if (faseTipo === "APROX1") {
-        status = "MOVILIDAD";
-        statusClass = "st-work";
-        icon = "⚙";
-        rem = remGeneral;
-        tareaActual = taskData.aprox1;
-        biomecActual = "Alineación articular y rango activo previo a carga específico del nivel";
-        tareaSiguiente = "Aproximación 2: Activación Específica";
-        stateKeyIndex = 501;
+        status = "MOVILIDAD"; statusClass = "st-work"; icon = "⚙"; rem = remGeneral;
+        tareaActual = taskData.aprox1; biomecActual = "Alineación articular previa"; tareaSiguiente = "Aproximación 2"; stateKeyIndex = 501;
       } else if (faseTipo === "APROX2") {
-        status = "ACTIVACIÓN";
-        statusClass = "st-work";
-        icon = "⚙";
-        rem = remGeneral;
-        tareaActual = taskData.aprox2;
-        biomecActual = "Isometría y estabilización neuromuscular específica del nivel";
-        tareaSiguiente = "Cuerpo de Clase: Estación 1";
-        stateKeyIndex = 502;
+        status = "ACTIVACIÓN"; statusClass = "st-work"; icon = "⚙"; rem = remGeneral;
+        tareaActual = taskData.aprox2; biomecActual = "Isometría y estabilización"; tareaSiguiente = "Cuerpo de Clase"; stateKeyIndex = 502;
       } else if (faseTipo === "CUERPO") {
         if (isRestRound) {
-          status = "DESCANSO";
-          statusClass = "st-descanso";
-          icon = "■";
-          rem = Math.max(0, 60 - secInCycle);
-          tareaActual = "Recuperación biológica activa e hidratación";
-          biomecActual = "Descarga diafragmática y respiración nasal profunda";
-          tareaSiguiente = "Preparar siguiente asalto del Cuerpo";
-          stateKeyIndex = 999;
+          status = "DESCANSO"; statusClass = "st-descanso"; icon = "■"; rem = Math.max(0, 60 - secInCycle);
+          tareaActual = "Recuperación biológica activa e hidratación"; biomecActual = "Descarga diafragmática"; tareaSiguiente = "Siguiente asalto"; stateKeyIndex = 999;
         } else {
           if (secInCycle < workSec) {
-            status = "TRABAJO";
-            statusClass = "st-work";
-            icon = "▶";
-            rem = workSec - secInCycle;
+            status = "TRABAJO"; statusClass = "st-work"; icon = "▶"; rem = workSec - secInCycle;
           } else {
-            status = "PAUSA";
-            statusClass = "st-pausa";
-            icon = "⏸";
-            rem = 120 - secInCycle;
+            status = "PAUSA"; statusClass = "st-pausa"; icon = "⏸"; rem = 120 - secInCycle;
           }
           const ejList = taskData.ejercicios;
-          const ejActual = ejList[roundIdx % 3];
-          const ejSig = ejList[(roundIdx + 1) % 3];
-
-          tareaActual = `${(roundIdx % 3) + 1}. ${ejActual}`;
+          tareaActual = `${(roundIdx % 3) + 1}. ${ejList[roundIdx % 3]}`;
           biomecActual = taskData.foco ? `Foco: ${taskData.foco}` : taskData.biomecanica;
-          tareaSiguiente = `${((roundIdx + 1) % 3) + 1}. ${ejSig}`;
+          tareaSiguiente = `${((roundIdx + 1) % 3) + 1}. ${ejList[(roundIdx + 1) % 3]}`;
           stateKeyIndex = 100 + roundIdx;
         }
       } else {
-        status = "CIERRE";
-        statusClass = "st-descanso";
-        icon = "✓";
-        rem = remGeneral;
-        tareaActual = "Biomecánica y Debate en Sala";
-        biomecActual = taskData.debate ? `Debate: ${taskData.debate}` : taskData.biomecanica;
-        tareaSiguiente = "Check-in Diario en App y Grabación Clan Apex";
-        stateKeyIndex = 9999;
+        status = "CIERRE"; statusClass = "st-descanso"; icon = "✓"; rem = remGeneral;
+        tareaActual = "Biomecánica y Debate en Sala"; biomecActual = taskData.debate ? `Debate: ${taskData.debate}` : taskData.biomecanica; tareaSiguiente = "Check-in Diario"; stateKeyIndex = 9999;
       }
 
       const pill = document.getElementById(`pill_${n.id}`);
@@ -821,21 +894,14 @@
       if (n.prevIdx !== stateKeyIndex) {
         const slotA = document.getElementById(`slotA_${n.id}`);
         const slotB = document.getElementById(`slotB_${n.id}`);
-
         if (n.prevIdx !== -1) {
-          slotA.classList.remove("slot-current");
-          slotA.classList.add("slot-exit");
-          slotB.classList.remove("slot-next");
-          slotB.classList.add("slot-current");
-
+          slotA.classList.remove("slot-current"); slotA.classList.add("slot-exit");
+          slotB.classList.remove("slot-next"); slotB.classList.add("slot-current");
           setTimeout(() => {
-            slotA.classList.remove("slot-exit");
-            slotA.classList.add("slot-current");
+            slotA.classList.remove("slot-exit"); slotA.classList.add("slot-current");
             document.getElementById(`taskA_${n.id}`).textContent = tareaActual;
             document.getElementById(`bioTxtA_${n.id}`).textContent = biomecActual;
-
-            slotB.classList.remove("slot-current");
-            slotB.classList.add("slot-next");
+            slotB.classList.remove("slot-current"); slotB.classList.add("slot-next");
             document.getElementById(`taskB_${n.id}`).textContent = tareaSiguiente;
           }, 450);
         } else {
@@ -847,6 +913,36 @@
       }
     }
 
+    function updateCameraActiveLanesHUD(totalSec) {
+      const container = document.getElementById("camActiveLanesHud");
+      if (!container) return;
+      container.innerHTML = "";
+
+      for (let k in configNiveles) {
+        const n = configNiveles[k];
+        if (!n.active) continue;
+        const taskData = getTaskForLevel(k);
+        let descText = taskData.cuerda.split('.')[0];
+
+        if (totalSec >= T_APERTURA_FIN && totalSec < T_APROX1_FIN) descText = taskData.aprox1;
+        else if (totalSec >= T_APROX1_FIN && totalSec < T_APROX2_FIN) descText = taskData.aprox2;
+        else if (totalSec >= T_APROX2_FIN && totalSec < T_CUERPO_FIN) {
+          const cuerpoSec = totalSec - T_APROX2_FIN;
+          const roundSec = cuerpoSec % 420;
+          if (roundSec < 360) descText = taskData.ejercicios[Math.floor(roundSec / 120) % 3];
+          else descText = "Descanso Inter-Round";
+        } else if (totalSec >= T_CUERPO_FIN) descText = "Debate y Biomecánica";
+
+        const item = document.createElement("div");
+        item.className = "cam-live-hud";
+        item.innerHTML = `
+          <div class="hud-live-title"><span>${n.name.toUpperCase()}</span><span>●</span></div>
+          <div class="hud-live-desc">${descText}</div>
+        `;
+        container.appendChild(item);
+      }
+    }
+
     function togglePlay() {
       keepAudioAlive();
       if (isRunning) {
@@ -855,12 +951,14 @@
         isRunning = false;
         document.getElementById("btnStart").textContent = "Reanudar";
         document.getElementById("btnStart").style.background = "var(--accent)";
+        document.getElementById("miniPlayBtn").textContent = "Reanudar";
       } else {
         startTime = performance.now();
         worker.postMessage('start');
         isRunning = true;
         document.getElementById("btnStart").textContent = "Pausar";
         document.getElementById("btnStart").style.background = "#222";
+        document.getElementById("miniPlayBtn").textContent = "Pausar";
         if (elapsedBeforePause === 0) speak("Todos, trabajo en tres, dos, uno");
       }
     }
@@ -878,6 +976,7 @@
       for (let k in configNiveles) configNiveles[k].prevIdx = -1;
       document.getElementById("btnStart").textContent = "Iniciar Clase";
       document.getElementById("btnStart").style.background = "var(--accent)";
+      document.getElementById("miniPlayBtn").textContent = "Pausar";
       document.getElementById("sessionScrubber").value = 0;
       actualizarVista(0, false);
     }
@@ -907,109 +1006,77 @@
       const formatted = formatTime(totalSec);
       document.getElementById("mainTime").textContent = formatted;
       document.getElementById("hudTime").textContent = formatted;
+      document.getElementById("miniTime").textContent = formatted;
       document.getElementById("scrubberPosLabel").textContent = `${formatted} / 50:00`;
       
-      if (!isScrubbing) {
-        document.getElementById("sessionScrubber").value = totalSec;
-      }
+      if (!isScrubbing) document.getElementById("sessionScrubber").value = totalSec;
+
+      updateCameraActiveLanesHUD(totalSec);
 
       const selSesion = getSelectedSesion();
       const taskIniciado = selSesion.niveles["Iniciado"];
       const clockBox = document.getElementById("clockBox");
-
       const isR5 = (totalSec >= 480 && totalSec < 600);
-      if (isR5) {
-        clockBox.classList.add("sprint-active");
-      } else {
-        clockBox.classList.remove("sprint-active");
-      }
 
-      const liveStatusElem = document.getElementById("hudLiveStatus");
-      const liveTaskElem = document.getElementById("hudLiveTask");
+      if (isR5) clockBox.classList.add("sprint-active");
+      else clockBox.classList.remove("sprint-active");
+
+      let phaseText = "Apertura · Cuerda";
+      let hudPhaseText = "Cuerda";
+      let execText = "Preparación";
 
       if (totalSec < T_APERTURA_FIN) {
         const cycleSec = totalSec % 120;
         const currentRound = Math.floor(totalSec / 120);
-        const phaseName = isR5 ? "⚡ SPRINT R5" : `Asalto ${currentRound + 1} de 5`;
-        document.getElementById("phaseLabel").textContent = isR5 ? "Apertura · SPRINT R5" : "Apertura · Cuerda";
-        document.getElementById("hudPhase").textContent = isR5 ? "SPRINT R5" : "Cuerda";
-        document.getElementById("exerciseLabel").textContent = phaseName + " · Cuerda Táctica";
-        
-        if (liveStatusElem) liveStatusElem.textContent = isR5 ? "SPRINT" : "TRABAJO";
-        if (liveTaskElem) liveTaskElem.textContent = taskIniciado.cuerda.split('.')[0];
+        phaseText = isR5 ? "Apertura · SPRINT R5" : `Asalto ${currentRound + 1} de 5`;
+        hudPhaseText = isR5 ? "SPRINT R5" : "Cuerda";
+        execText = phaseText + " · Cuerda Táctica";
 
         if (!isScrubbing) evaluarVoz(cycleSec, false, "APERTURA");
         for (let k in configNiveles) updateLaneData(k, cycleSec, false, "APERTURA", currentRound);
       } else if (totalSec < T_APROX1_FIN) {
-        document.getElementById("phaseLabel").textContent = "Aproximación 1 · Movilidad";
-        document.getElementById("hudPhase").textContent = "Aprox 1";
+        phaseText = "Aproximación 1 · Movilidad"; hudPhaseText = "Aprox 1"; execText = taskIniciado.aprox1;
         const remAprox1 = T_APROX1_FIN - totalSec;
-        document.getElementById("exerciseLabel").textContent = taskIniciado.aprox1;
-        
-        if (liveStatusElem) liveStatusElem.textContent = "MOVILIDAD";
-        if (liveTaskElem) liveTaskElem.textContent = taskIniciado.aprox1;
-
         if (!isScrubbing && totalSec === T_APERTURA_FIN) speak("Aproximación uno, movilidad y postura");
         for (let k in configNiveles) updateLaneData(k, 0, false, "APROX1", 0, remAprox1);
       } else if (totalSec < T_APROX2_FIN) {
-        document.getElementById("phaseLabel").textContent = "Aproximación 2 · Activación";
-        document.getElementById("hudPhase").textContent = "Aprox 2";
+        phaseText = "Aproximación 2 · Activación"; hudPhaseText = "Aprox 2"; execText = taskIniciado.aprox2;
         const remAprox2 = T_APROX2_FIN - totalSec;
-        document.getElementById("exerciseLabel").textContent = taskIniciado.aprox2;
-        
-        if (liveStatusElem) liveStatusElem.textContent = "ACTIVACIÓN";
-        if (liveTaskElem) liveTaskElem.textContent = taskIniciado.aprox2;
-
         if (!isScrubbing && totalSec === T_APROX1_FIN) speak("Aproximación dos, activación específica");
         for (let k in configNiveles) updateLaneData(k, 0, false, "APROX2", 0, remAprox2);
       } else if (totalSec < T_CUERPO_FIN) {
         const cuerpoSec = totalSec - T_APROX2_FIN;
         const roundSec = cuerpoSec % 420;
         const roundNum = Math.floor(cuerpoSec / 420) + 1;
-        document.getElementById("phaseLabel").textContent = `Cuerpo · Asalto ${roundNum} de 4`;
-        document.getElementById("hudPhase").textContent = `Asalto ${roundNum}`;
+        phaseText = `Cuerpo · Asalto ${roundNum} de 4`;
+        hudPhaseText = `Asalto ${roundNum}`;
 
         if (roundSec < 360) {
-          const ejSec = roundSec % 120;
-          const ejNum = Math.floor(roundSec / 120);
-          document.getElementById("exerciseLabel").textContent = `Estación ${ejNum + 1} de 3 · Trabajo Multicanal`;
-          
-          if (liveStatusElem) liveStatusElem.textContent = ejSec < 90 ? "TRABAJO" : "PAUSA";
-          if (liveTaskElem) liveTaskElem.textContent = taskIniciado.ejercicios[ejNum % 3];
-
-          if (!isScrubbing) evaluarVoz(ejSec, false, "CUERPO");
-          for (let k in configNiveles) updateLaneData(k, ejSec, false, "CUERPO", ejNum);
+          execText = `Estación ${Math.floor(roundSec / 120) + 1} de 3 · Trabajo Multicanal`;
+          if (!isScrubbing) evaluarVoz(roundSec % 120, false, "CUERPO");
+          for (let k in configNiveles) updateLaneData(k, roundSec % 120, false, "CUERPO", Math.floor(roundSec / 120));
         } else {
-          const restSec = roundSec - 360;
-          document.getElementById("exerciseLabel").textContent = "Descanso Inter-Round (1 min)";
-          document.getElementById("hudPhase").textContent = "Descanso";
-          
-          if (liveStatusElem) liveStatusElem.textContent = "DESCANSO";
-          if (liveTaskElem) liveTaskElem.textContent = "Hidratación y recuperación";
-
-          if (!isScrubbing) evaluarDescanso(restSec);
-          for (let k in configNiveles) updateLaneData(k, restSec, true, "CUERPO", 0);
+          execText = "Descanso Inter-Round (1 min)";
+          hudPhaseText = "Descanso";
+          if (!isScrubbing) evaluarDescanso(roundSec - 360);
+          for (let k in configNiveles) updateLaneData(k, roundSec - 360, true, "CUERPO", 0);
         }
       } else {
+        phaseText = "Cierre · Biomecánica y Debate"; hudPhaseText = "Cierre"; execText = "Biomecánica y Debate (5m) · Check-in";
         const remCierre = T_CIERRE_FIN - totalSec;
-        document.getElementById("phaseLabel").textContent = "Cierre · Biomecánica y Debate";
-        document.getElementById("hudPhase").textContent = "Cierre";
-        document.getElementById("exerciseLabel").textContent = "Biomecánica y Debate (5m) · Check-in Clan Apex";
-        
-        if (liveStatusElem) liveStatusElem.textContent = "CIERRE";
-        if (liveTaskElem) liveTaskElem.textContent = "Debate y Biomecánica";
-
         for (let k in configNiveles) updateLaneData(k, 0, false, "CIERRE", 0, remCierre);
-        if (!isScrubbing && totalSec === T_CUERPO_FIN) {
-          speak("Cuerpo de clase completado. Iniciar Biomecánica, debate y check-in en la aplicación");
-        }
+        if (!isScrubbing && totalSec === T_CUERPO_FIN) speak("Cuerpo de clase completado. Iniciar Biomecánica, debate y check-in");
       }
+
+      document.getElementById("phaseLabel").textContent = phaseText;
+      document.getElementById("hudPhase").textContent = hudPhaseText;
+      document.getElementById("miniPhase").textContent = hudPhaseText;
+      document.getElementById("exerciseLabel").textContent = execText;
     }
 
     worker.onmessage = function() {
       const totalElapsedMs = elapsedBeforePause + (isRunning ? (performance.now() - startTime) : 0);
       const totalSec = Math.floor(totalElapsedMs / 1000);
-
       if (totalSec === lastSecondReported) return;
       lastSecondReported = totalSec;
       actualizarVista(totalSec, false);
@@ -1017,27 +1084,12 @@
 
     function evaluarVoz(sec, isRest, fase) {
       if (isRest || !voiceEnabled) return;
-
       if (sec === 57 && configNiveles['Iniciado'].active) speak("Iniciados, pausa en tres, dos, uno");
-
-      if (fase === "APERTURA" && sec === 72 && configNiveles['Intermedio'].active) {
-        speak("Intermedio, pausa en tres, dos, uno");
-      } else if (fase === "CUERPO" && sec === 87 && configNiveles['Intermedio'].active) {
-        speak("Intermedio, pausa en tres, dos, uno");
-      }
-
-      if (sec === 87 && configNiveles['Avanzado'].active) {
-        speak("Avanzado, pausa en tres, dos, uno");
-      }
-
-      if (sec === 102 && configNiveles['Apex'].active) {
-        speak("Apex, pausa en tres, dos, uno");
-      }
-
-      if (fase === "APERTURA" && sec === 107 && configNiveles['Apex+'].active) {
-        speak("Apex +, pausa en tres, dos, uno");
-      }
-
+      if (fase === "APERTURA" && sec === 72 && configNiveles['Intermedio'].active) speak("Intermedio, pausa en tres, dos, uno");
+      else if (fase === "CUERPO" && sec === 87 && configNiveles['Intermedio'].active) speak("Intermedio, pausa en tres, dos, uno");
+      if (sec === 87 && configNiveles['Avanzado'].active) speak("Avanzado, pausa en tres, dos, uno");
+      if (sec === 102 && configNiveles['Apex'].active) speak("Apex, pausa en tres, dos, uno");
+      if (fase === "APERTURA" && sec === 107 && configNiveles['Apex+'].active) speak("Apex +, pausa en tres, dos, uno");
       if (sec === 117) speak("Todos, trabajo en tres, dos, uno");
     }
 
@@ -1047,7 +1099,7 @@
       if (sec === 57) speak("Siguiente asalto, todos en tres, dos, uno");
     }
 
-    // Cámara Táctica MP4 / H.264 WhatsApp Compatible con HUD Minimalista Dinámico
+    // Cámara Táctica V5 (HD + Audio + Burnt-in Overlay + Modo Libre)
     let mediaStream = null;
     let mediaRecorder = null;
     let recordedChunks = [];
@@ -1055,24 +1107,24 @@
     let recordStartTime = 0;
     let recordInterval = null;
     let clipLimitSeconds = 30;
+    let isFreeMode = false;
     let latestBlobUrl = null;
     let selectedMimeType = '';
     let fileExtension = 'mp4';
+    let canvasAnimId = null;
+    let renderCanvas = null;
+    let renderCtx = null;
 
     function getSupportedMimeType() {
       const candidates = [
         { mime: 'video/mp4;codecs=avc1.42E01E,mp4a.40.2', ext: 'mp4' },
-        { mime: 'video/mp4;codecs=avc1', ext: 'mp4' },
         { mime: 'video/mp4', ext: 'mp4' },
         { mime: 'video/webm;codecs=h264', ext: 'mp4' },
         { mime: 'video/webm;codecs=vp9', ext: 'webm' },
-        { mime: 'video/webm;codecs=vp8', ext: 'webm' },
         { mime: 'video/webm', ext: 'webm' }
       ];
       for (const c of candidates) {
-        if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(c.mime)) {
-          return c;
-        }
+        if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(c.mime)) return c;
       }
       return { mime: '', ext: 'mp4' };
     }
@@ -1082,18 +1134,21 @@
       try {
         const constraints = {
           video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } },
-          audio: false
+          audio: { echoCancellation: true, noiseSuppression: true }
         };
         mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-        document.getElementById("cameraFeed").srcObject = mediaStream;
+        const videoElement = document.getElementById("cameraFeed");
+        videoElement.srcObject = mediaStream;
+        await videoElement.play().catch(() => {});
       } catch (err) {
-        alert("No se pudo acceder a la cámara. Revisa los permisos.");
+        alert("No se pudo acceder a la cámara o micrófono. Revisa los permisos.");
         closeCamera();
       }
     }
 
     function closeCamera() {
       if (isRecording) stopRecording(false);
+      if (canvasAnimId) cancelAnimationFrame(canvasAnimId);
       if (mediaStream) {
         mediaStream.getTracks().forEach(track => track.stop());
         mediaStream = null;
@@ -1106,19 +1161,41 @@
       else stopRecording(true);
     }
 
-    function startRecording() {
+    async function startRecording() {
       recordedChunks = [];
-      clipLimitSeconds = parseInt(document.getElementById("clipDurationSelect").value, 10);
+      const limitVal = parseInt(document.getElementById("clipDurationSelect").value, 10);
+      isFreeMode = (limitVal === 0);
+      clipLimitSeconds = isFreeMode ? 0 : limitVal;
       
+      const videoElement = document.getElementById("cameraFeed");
+      renderCanvas = document.getElementById("renderCanvas");
+      renderCanvas.width = videoElement.videoWidth || 1920;
+      renderCanvas.height = videoElement.videoHeight || 1080;
+      renderCtx = renderCanvas.getContext('2d', { alpha: false });
+
+      const canvasStream = renderCanvas.captureStream(30);
+      initAudioRouting();
+      const audioTracks = mediaStream.getAudioTracks();
+      const mixedAudioStream = new MediaStream();
+      
+      if (audioTracks.length > 0) mixedAudioStream.addTrack(audioTracks[0]);
+      if (synthDestination && synthDestination.stream.getAudioTracks().length > 0) {
+        mixedAudioStream.addTrack(synthDestination.stream.getAudioTracks()[0]);
+      }
+
+      const combinedStream = new MediaStream([
+        ...canvasStream.getVideoTracks(),
+        ...mixedAudioStream.getAudioTracks()
+      ]);
+
       const supported = getSupportedMimeType();
       selectedMimeType = supported.mime;
       fileExtension = supported.ext;
 
       try {
-        if (selectedMimeType) mediaRecorder = new MediaRecorder(mediaStream, { mimeType: selectedMimeType });
-        else mediaRecorder = new MediaRecorder(mediaStream);
+        mediaRecorder = selectedMimeType ? new MediaRecorder(combinedStream, { mimeType: selectedMimeType }) : new MediaRecorder(combinedStream);
       } catch (e) {
-        mediaRecorder = new MediaRecorder(mediaStream);
+        mediaRecorder = new MediaRecorder(combinedStream);
       }
 
       mediaRecorder.ondataavailable = e => {
@@ -1134,16 +1211,62 @@
       const counter = document.getElementById("recCounter");
       counter.classList.add("active");
 
+      function drawFrame() {
+        if (!isRecording) return;
+        if (renderCtx && videoElement.readyState >= 2) {
+          renderCtx.drawImage(videoElement, 0, 0, renderCanvas.width, renderCanvas.height);
+          
+          // Burnt-in Overlay Táctico Avanzado
+          renderCtx.save();
+          renderCtx.fillStyle = "rgba(12, 12, 12, 0.88)";
+          renderCtx.strokeStyle = "rgba(229, 9, 20, 0.7)";
+          renderCtx.lineWidth = 4;
+          
+          const boxX = 40, boxY = 40, boxW = 540, boxH = 220, radius = 16;
+          renderCtx.beginPath();
+          renderCtx.roundRect(boxX, boxY, boxW, boxH, radius);
+          renderCtx.fill();
+          renderCtx.stroke();
+
+          renderCtx.fillStyle = "#aaaaaa";
+          renderCtx.font = "bold 24px -apple-system, sans-serif";
+          renderCtx.fillText((document.getElementById("hudPhase").textContent || "APERTURA").toUpperCase(), boxX + 30, boxY + 45);
+
+          renderCtx.fillStyle = "#ffffff";
+          renderCtx.font = "900 64px -apple-system, monospace";
+          renderCtx.fillText(document.getElementById("hudTime").textContent || "00:00", boxX + 30, boxY + 115);
+          
+          renderCtx.font = "bold 20px -apple-system, sans-serif";
+          let offsetY = boxY + 155;
+          for (let k in configNiveles) {
+            const n = configNiveles[k];
+            if (!n.active) continue;
+            renderCtx.fillStyle = "#e50914";
+            renderCtx.fillText(`• ${n.name.toUpperCase()}`, boxX + 30, offsetY);
+            offsetY += 28;
+            if (offsetY > boxY + boxH - 10) break;
+          }
+          renderCtx.restore();
+        }
+        canvasAnimId = requestAnimationFrame(drawFrame);
+      }
+      drawFrame();
+
       recordInterval = setInterval(() => {
         const elapsed = Math.floor((performance.now() - recordStartTime) / 1000);
-        counter.textContent = `REC 00:${elapsed.toString().padStart(2, '0')} / 00:${clipLimitSeconds.toString().padStart(2, '0')}`;
-        if (elapsed >= clipLimitSeconds) stopRecording(true);
+        if (isFreeMode) {
+          counter.textContent = `REC 00:${Math.floor(elapsed/60).toString().padStart(2,'0')}:${(elapsed%60).toString().padStart(2, '0')}`;
+        } else {
+          counter.textContent = `REC 00:${elapsed.toString().padStart(2, '0')} / 00:${clipLimitSeconds.toString().padStart(2, '0')}`;
+          if (elapsed >= clipLimitSeconds) stopRecording(true);
+        }
       }, 500);
     }
 
     function stopRecording(promptSave = true) {
       if (!isRecording) return;
       isRecording = false;
+      if (canvasAnimId) cancelAnimationFrame(canvasAnimId);
       clearInterval(recordInterval);
       document.getElementById("shutterBtn").classList.remove("recording");
       document.getElementById("recCounter").classList.remove("active");
@@ -1156,8 +1279,9 @@
         const mimeToUse = selectedMimeType || (recordedChunks[0] && recordedChunks[0].type) || 'video/mp4';
         const blob = new Blob(recordedChunks, { type: mimeToUse });
         latestBlobUrl = URL.createObjectURL(blob);
-        document.getElementById("saveVideoText").textContent = 
-          `Se capturó un clip de ${clipLimitSeconds}s. ¿Deseas guardarlo en tu galería de descargas?`;
+        const durationText = isFreeMode ? "libre" : `${clipLimitSeconds}s`;
+        document.getElementById("saveVideoText").textContent =  
+          `Se capturó un clip HD de duración ${durationText} con audio sintetizado y cronómetro en vivo integrado. ¿Deseas guardarlo?`;
         document.getElementById("saveVideoModal").classList.add("open");
       }
     }
@@ -1168,7 +1292,7 @@
       a.style.display = "none";
       a.href = latestBlobUrl;
       const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-      a.download = `Apex_Clip_${timestamp}.${fileExtension}`;
+      a.download = `CronoApex_V5_${timestamp}.${fileExtension}`;
       document.body.appendChild(a);
       a.click();
       setTimeout(() => {
