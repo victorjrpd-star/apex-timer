@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Crono Apex">
-  <title>Crono Apex Tactical V7</title>
+  <title>Crono Apex Tactical V10</title>
 
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon.png">
@@ -26,32 +26,32 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
     html, body { background: var(--bg); color: var(--text-main); padding: 12px; max-width: 600px; margin: 0 auto; user-select: none; overscroll-behavior-y: none; }
     
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
     .main-title { font-size: 1.3rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; }
     .main-title span { color: var(--accent); }
     
     .header-actions { display: flex; gap: 6px; align-items: center; }
     .action-btn-header {
       background: #1c1c1c; border: 1px solid #333; color: #fff; width: 40px; height: 40px;
-      border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+      border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
     }
     .action-btn-header svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
     .action-btn-header:active { background: var(--accent); }
     .action-btn-header.active-setting { border-color: var(--accent); background: #1a0808; }
 
-    .selector-wrap { margin-bottom: 10px; }
+    .selector-wrap { margin-bottom: 12px; }
     select {
-      width: 100%; padding: 10px 12px; font-size: 0.88rem; font-weight: 700; background: var(--card-bg); color: #fff;
-      border: 1px solid var(--border); border-radius: 8px; outline: none; appearance: none;
+      width: 100%; padding: 12px 16px; font-size: 0.88rem; font-weight: 800; background: var(--card-bg); color: #fff;
+      border: 1px solid var(--border); border-radius: 12px; outline: none; appearance: none;
     }
 
     .settings-panel {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px;
-      margin-bottom: 10px; display: none; flex-direction: column; gap: 10px;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px;
+      margin-bottom: 12px; display: none; flex-direction: column; gap: 12px;
     }
     .settings-panel.open { display: flex; }
-    .setting-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
-    .setting-row span { color: var(--text-sub); font-size: 0.75rem; }
+    .setting-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; }
+    .setting-row span { color: var(--text-sub); font-size: 0.7rem; font-weight: 600; }
     
     .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
     .switch input { opacity: 0; width: 0; height: 0; }
@@ -67,23 +67,24 @@
     input:checked + .slider-toggle:before { transform: translateX(20px); }
 
     .btn-session-out {
-      background: #1c1c1c; border: 1px solid var(--accent); color: #fff; width: 100%; padding: 10px;
-      border-radius: 6px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; cursor: pointer;
+      background: #1c1c1c; border: 1px solid var(--accent); color: #fff; width: 100%; padding: 12px;
+      border-radius: 10px; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s;
     }
+    .btn-session-out:active { background: var(--accent); }
 
-    .levels-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+    .levels-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
     .level-btn {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 4px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 6px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
     }
     .level-btn.active { border-color: var(--accent); background: #1a0808; }
-    .level-title { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; }
-    .level-sub { font-size: 0.62rem; color: var(--text-muted); margin-top: 2px; }
+    .level-title { font-size: 0.78rem; font-weight: 950; text-transform: uppercase; color: #ccc; }
+    .level-sub { font-size: 0.62rem; color: var(--text-muted); margin-top: 2px; font-weight: 700; }
     .level-btn.active .level-title { color: #fff; }
 
     .clock-display {
-      background: #050505; border: 1px solid var(--border); border-radius: 12px; padding: 12px;
-      text-align: center; margin-bottom: 8px; transition: border-color 0.3s;
+      background: #050505; border: 1px solid var(--border); border-radius: 16px; padding: 16px;
+      text-align: center; margin-bottom: 10px; transition: border-color 0.3s;
     }
     .clock-display.sprint-active { border-color: var(--accent); animation: pulseBorder 1.2s infinite; }
     @keyframes pulseBorder {
@@ -93,84 +94,85 @@
     }
 
     .phase-badge {
-      display: inline-block; font-size: 0.72rem; font-weight: 800; letter-spacing: 1.2px;
-      padding: 3px 8px; border-radius: 4px; text-transform: uppercase; margin-bottom: 2px;
+      display: inline-block; font-size: 0.72rem; font-weight: 900; letter-spacing: 1.2px;
+      padding: 4px 10px; border-radius: 6px; text-transform: uppercase; margin-bottom: 4px;
       background: #1c1c1c; color: #fff; border: 1px solid #2a2a2a;
     }
-    .time-big { font-size: 3.5rem; font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1; margin: 2px 0; color: #fff; }
-    .exercise-current { font-size: 0.88rem; color: var(--text-sub); font-weight: 600; min-height: 18px; }
+    .time-big { font-size: 3.8rem; font-weight: 950; font-variant-numeric: tabular-nums; line-height: 1; margin: 4px 0; color: #fff; letter-spacing: -1px; }
+    .exercise-current { font-size: 0.88rem; color: var(--text-sub); font-weight: 700; min-height: 18px; }
 
+    /* Línea de tiempo Estilo Apex (Esculpida, con regla de marcas y esbelta) */
     .scrubber-container {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
-      padding: 8px 12px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 4px;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px 14px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;
     }
     .scrubber-header {
-      display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted);
+      display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; font-weight: 900; text-transform: uppercase; color: var(--text-muted);
     }
     .scrubber-header span.tag-mode { color: var(--accent); }
+    
+    .apex-timeline-wrap { position: relative; padding: 10px 0; }
     .time-slider {
-      -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px; background: #262626; outline: none; cursor: pointer; margin: 6px 0;
+      -webkit-appearance: none; width: 100%; height: 2px; border-radius: 1px; background: #ffffff; outline: none; cursor: pointer; margin: 0;
+      background-image: repeating-linear-gradient(90deg, #ffffff, #ffffff 1px, transparent 1px, transparent 100px);
     }
     .time-slider::-webkit-slider-thumb {
-      -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%;
-      background: var(--accent); border: 2px solid #fff; cursor: pointer; box-shadow: 0 0 6px rgba(229,9,20,0.6);
+      -webkit-appearance: none; appearance: none; width: 6px; height: 20px; border-radius: 3px;
+      background: #ffffff; border: 1px solid #000; cursor: pointer; box-shadow: 0 0 6px rgba(255,255,255,0.8);
     }
     .scrubber-ticks {
-      display: flex; justify-content: space-between; font-size: 0.60rem; font-weight: 700; color: #555;
+      display: flex; justify-content: space-between; font-size: 0.60rem; font-weight: 800; color: #666; margin-top: 4px;
     }
 
-    .lanes-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    .lanes-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
     .lane-card {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px;
-      display: flex; flex-direction: column; gap: 4px; transition: opacity 0.2s; cursor: pointer;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 6px; transition: 0.2s; cursor: pointer;
     }
     .lane-card:hover { border-color: #444; }
-    .lane-card.muted { opacity: 0.2; }
+    .lane-card.muted { opacity: 0.25; }
     
     .lane-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
     .lane-header-group { display: flex; align-items: center; gap: 8px; }
-    .lane-name { font-size: 0.82rem; font-weight: 900; text-transform: uppercase; color: #fff; }
+    .lane-name { font-size: 0.85rem; font-weight: 950; text-transform: uppercase; color: #fff; letter-spacing: 0.5px; }
     
     .status-pill {
-      font-size: 0.65rem; font-weight: 800; text-transform: uppercase; padding: 2px 8px; border-radius: 4px;
+      font-size: 0.65rem; font-weight: 900; text-transform: uppercase; padding: 3px 8px; border-radius: 6px;
       display: flex; align-items: center; gap: 5px; background: #202020; color: #fff; border: 1px solid #333;
     }
     .status-pill.st-work .status-icon { color: var(--accent); }
     .status-pill.st-pausa .status-icon { color: #888; }
     .status-pill.st-descanso .status-icon { color: #666; }
-    .lane-time { font-size: 1.3rem; font-weight: 900; font-variant-numeric: tabular-nums; color: #fff; }
+    .lane-time { font-size: 1.3rem; font-weight: 950; font-variant-numeric: tabular-nums; color: #fff; }
 
     .feed-viewport {
-      position: relative; height: 74px; overflow: hidden; border-top: 1px solid #1a1a1a; padding-top: 4px;
+      position: relative; height: 42px; overflow: hidden; border-top: 1px solid #1a1a1a; padding-top: 4px;
     }
-    .feed-slot {
-      position: absolute; left: 0; width: 100%;
-      transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.45s ease;
-    }
-    .slot-current { top: 0; transform: translateY(0); opacity: 1; }
+    .feed-slot { position: absolute; left: 0; width: 100%; }
 
     .lane-task-desc {
-      font-size: 0.82rem; font-weight: 800; color: #ffffff; line-height: 1.25;
+      font-size: 0.82rem; font-weight: 900; color: #ffffff; line-height: 1.25;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .lane-biomech-row {
-      display: flex; align-items: center; gap: 5px; font-size: 0.7rem; color: #888888; font-weight: 600; line-height: 1.2; margin-top: 2px;
+      display: flex; align-items: center; gap: 6px; font-size: 0.72rem; color: #888888; font-weight: 700; line-height: 1.2; margin-top: 2px;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .lane-biomech-label {
-      font-size: 0.6rem; text-transform: uppercase; font-weight: 900; background: #222; color: #fff; padding: 1px 4px; border-radius: 3px; display: inline-flex; align-items: center; gap: 3px;
+      font-size: 0.58rem; text-transform: uppercase; font-weight: 950; background: #222; color: #fff; padding: 2px 5px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;
     }
     .lane-biomech-label svg { width: 10px; height: 10px; stroke: var(--accent); fill: none; }
 
     .controls-wrap { display: flex; gap: 10px; }
     .btn {
-      flex: 1; padding: 14px; font-size: 0.95rem; font-weight: 900; text-transform: uppercase;
-      border: none; border-radius: 8px; cursor: pointer; letter-spacing: 1px;
+      flex: 1; padding: 16px; font-size: 0.95rem; font-weight: 950; text-transform: uppercase;
+      border: none; border-radius: 12px; cursor: pointer; letter-spacing: 1px; transition: 0.2s;
     }
     .btn-main { background: var(--accent); color: #fff; }
     .btn-main:active { filter: brightness(0.85); }
     .btn-sub { background: #1c1c1c; color: #bbb; max-width: 95px; border: 1px solid #2a2a2a; }
 
+    /* Cámara Táctica V10 */
     .camera-modal {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: #000; z-index: 1000; flex-direction: column; justify-content: space-between;
@@ -180,77 +182,85 @@
     canvas#renderCanvas { display: none; }
     
     .cam-hud-top {
-      position: relative; z-index: 2; padding: 12px 16px; display: flex; justify-content: space-between;
-      align-items: flex-start; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+      position: relative; z-index: 2; padding: 16px; display: flex; justify-content: space-between;
+      align-items: flex-start; background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
     }
-    .cam-hud-left { display: flex; flex-direction: column; gap: 6px; }
-    .cam-clock-pill {
-      background: rgba(12, 12, 12, 0.75); border: 1px solid rgba(255,255,255,0.15);
-      padding: 6px 12px; border-radius: 8px; backdrop-filter: blur(6px);
-    }
-    .hud-time { font-size: 1.5rem; font-weight: 900; font-variant-numeric: tabular-nums; color: #fff; line-height: 1; }
-    .hud-phase { font-size: 0.65rem; font-weight: 700; color: #aaa; text-transform: uppercase; margin-bottom: 2px; }
-
-    .cam-active-lanes-hud { display: flex; flex-direction: column; gap: 4px; max-width: 260px; }
-    .cam-live-hud {
-      background: rgba(12, 12, 12, 0.75); border: 1px solid rgba(255,255,255,0.12);
-      padding: 5px 8px; border-radius: 6px; backdrop-filter: blur(6px);
-    }
-    .hud-live-title { font-size: 0.58rem; font-weight: 900; color: var(--accent); text-transform: uppercase; margin-bottom: 1px; display: flex; justify-content: space-between; }
-    .hud-live-desc { font-size: 0.7rem; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    .cam-controls-top { display: flex; align-items: center; gap: 6px; }
-    .btn-close-cam {
+    .cam-hud-left { display: flex; flex-direction: column; gap: 8px; }
+    
+    .cam-controls-top { display: flex; align-items: center; gap: 8px; }
+    .btn-cam-action {
       background: rgba(20, 20, 20, 0.85); border: 1px solid rgba(255,255,255,0.3);
-      color: #fff; width: 36px; height: 36px; border-radius: 6px; display: flex;
-      align-items: center; justify-content: center; cursor: pointer;
+      color: #fff; width: 40px; height: 40px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(6px);
     }
+    .btn-cam-action svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
     
     .cam-hud-bottom {
       position: relative; z-index: 2; padding: 20px; display: flex; flex-direction: column;
-      align-items: center; gap: 10px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      align-items: center; gap: 12px; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
     }
     .rec-counter {
-      font-size: 0.9rem; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums;
-      background: rgba(0,0,0,0.7); padding: 4px 10px; border-radius: 20px; display: none;
+      font-size: 0.9rem; font-weight: 900; color: var(--accent); font-variant-numeric: tabular-nums;
+      background: rgba(0,0,0,0.7); padding: 4px 12px; border-radius: 20px; display: none; letter-spacing: 1px;
     }
     .rec-counter.active { display: block; }
-    .shutter-btn {
-      width: 68px; height: 68px; border-radius: 50%; border: 4px solid #fff;
-      display: flex; align-items: center; justify-content: center; cursor: pointer; background: transparent;
+    
+    .cam-bottom-bar {
+      display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; max-width: 320px;
     }
-    .shutter-core { width: 50px; height: 50px; border-radius: 50%; background: var(--accent); transition: all 0.2s; }
-    .shutter-btn.recording .shutter-core { width: 26px; height: 26px; border-radius: 6px; }
+    
+    .shutter-btn {
+      width: 72px; height: 72px; border-radius: 50%; border: 4px solid #ffffff;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; background: #ffffff; transition: 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .shutter-core { width: 56px; height: 56px; border-radius: 50%; background: #ffffff; transition: all 0.2s; }
+    .shutter-btn.recording .shutter-core { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); }
+
+    .select-limit-apex {
+      background: rgba(18, 18, 18, 0.85); color: #fff; border: 1px solid rgba(255,255,255,0.25);
+      padding: 10px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 900; outline: none; backdrop-filter: blur(8px);
+    }
+
+    .toast-alert {
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
+      background: #1c1c1c; border: 1px solid var(--accent); color: #fff; padding: 12px 24px;
+      border-radius: 12px; font-size: 0.85rem; font-weight: 900; z-index: 3000; text-transform: uppercase;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8); transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+    .toast-alert.show { transform: translateX(-50%) translateY(0); }
 
     .modal-overlay {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85); z-index: 2000; justify-content: center; align-items: center; padding: 20px;
+      background: rgba(0, 0, 0, 0.88); z-index: 2000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(4px);
     }
     .modal-overlay.open { display: flex; }
     .modal-box {
-      background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; padding: 20px;
+      background: var(--card-bg); border: 2px solid var(--border); border-radius: 16px; padding: 22px;
       max-width: 360px; width: 100%; text-align: left; max-height: 80vh; overflow-y: auto;
     }
-    .modal-box h2 { font-size: 1.1rem; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; color: #fff; text-align: center; }
-    .modal-box p { font-size: 0.82rem; color: var(--text-sub); margin-bottom: 20px; line-height: 1.5; text-align: center; }
+    .modal-box h2 { font-size: 1.15rem; font-weight: 950; text-transform: uppercase; margin-bottom: 12px; color: #fff; text-align: center; letter-spacing: 0.5px; }
+    .modal-box p { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 20px; line-height: 1.5; text-align: center; }
     .coach-input {
-      width: 100%; padding: 12px; background: #1c1c1c; border: 1px solid var(--accent); border-radius: 6px;
-      color: #fff; font-size: 1rem; font-weight: 800; text-align: center; margin-bottom: 20px; outline: none; text-transform: uppercase;
+      width: 100%; padding: 14px; background: #1c1c1c; border: 1px solid var(--accent); border-radius: 12px;
+      color: #fff; font-size: 1rem; font-weight: 900; text-align: center; margin-bottom: 20px; outline: none; text-transform: uppercase;
     }
     .modal-actions { display: flex; gap: 10px; }
     .modal-btn {
-      flex: 1; padding: 12px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
-      border: none; border-radius: 6px; cursor: pointer; text-align: center;
+      flex: 1; padding: 14px; font-size: 0.85rem; font-weight: 950; text-transform: uppercase;
+      border: none; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.2s;
     }
     .modal-btn-danger { background: var(--accent); color: #fff; }
     .modal-btn-cancel { background: #2a2a2a; color: #ccc; }
-    .modal-btn-save { background: #fff; color: #000; font-weight: 900; }
+    .modal-btn-save { background: #fff; color: #000; font-weight: 950; }
   </style>
 </head>
 <body>
 
+  <div class="toast-alert" id="toastAlert">Acción completada</div>
+
   <div class="header">
-    <div class="main-title">Crono <span>Apex Tactical</span> V7</div>
+    <div class="main-title">Crono <span>Apex Tactical</span> V10</div>
     <div class="header-actions">
       <button class="action-btn-header" id="settingsToggleBtn" onclick="toggleSettings()" title="Configuración">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -263,9 +273,16 @@
 
   <div class="settings-panel" id="settingsPanel">
     <div class="setting-row">
-      <div>Avisos de Voz (Sintetizador) <br><span>(Alertas de cuenta atrás 3s)</span></div>
+      <div>Sintetizador de Voz <br><span>(Alertas de cuenta atrás 3s)</span></div>
       <label class="switch">
         <input type="checkbox" id="voiceToggleCheck" checked onchange="toggleVoice(this.checked)">
+        <span class="slider-toggle"></span>
+      </label>
+    </div>
+    <div class="setting-row">
+      <div>Bloquear Línea de Tiempo <br><span>(Evita saltos accidentales en sala)</span></div>
+      <label class="switch">
+        <input type="checkbox" id="lockScrubberCheck" onchange="toggleScrubberLock(this.checked)">
         <span class="slider-toggle"></span>
       </label>
     </div>
@@ -305,12 +322,15 @@
     <div class="exercise-current" id="exerciseLabel">Preparación</div>
   </div>
 
+  <!-- Línea de Tiempo Esculpida (Apex Style con anclaje magnético) -->
   <div class="scrubber-container" id="scrubberContainer">
     <div class="scrubber-header">
       <span>Línea de Tiempo · Sesión</span>
       <span class="tag-mode" id="scrubberPosLabel">00:00 / 50:00</span>
     </div>
-    <input type="range" class="time-slider" id="sessionScrubber" min="0" max="3000" step="1" value="0" oninput="onScrub(this.value)">
+    <div class="apex-timeline-wrap">
+      <input type="range" class="time-slider" id="sessionScrubber" min="0" max="3000" step="1" value="0" oninput="onScrub(this.value)">
+    </div>
     <div class="scrubber-ticks">
       <span>00:00 Cuerda</span>
       <span>10:00 Aprox 1</span>
@@ -331,7 +351,7 @@
   <div class="modal-overlay" id="coachModal">
     <div class="modal-box">
       <h2>Registro de Instructor</h2>
-      <p>Escribe aquí tu nombre de coach para firmar la sesión y las evidencias tácticas:</p>
+      <p>Escribe tu nombre de coach para firmar la sesión y las evidencias tácticas:</p>
       <input type="text" id="coachNameInput" class="coach-input" placeholder="ESCRIBE AQUÍ TU NOMBRE" autocomplete="off">
       <div class="modal-actions">
         <button class="modal-btn modal-btn-save" onclick="saveCoachIdentity()">Continuar</button>
@@ -343,14 +363,14 @@
   <div class="modal-overlay" id="detailModal">
     <div class="modal-box">
       <h2 id="detailModalTitle">Detalle Táctico</h2>
-      <p id="detailModalContent">Cargando...</p>
+      <p id="detailModalContent" style="text-align: left;"></p>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-save" onclick="closeDetailModal()">Cerrar</button>
       </div>
     </div>
   </div>
 
-  <!-- Cámara Táctica V7 (30s Fijos + HUD Minimalista sin Cuadros) -->
+  <!-- Cámara Táctica V10 (Acceso Descargas + Anclaje Ergonómico + HUD Cronómetros Niveles) -->
   <div class="camera-modal" id="cameraModal">
     <video id="cameraFeed" autoplay playsinline muted></video>
     <canvas id="renderCanvas"></canvas>
@@ -361,24 +381,37 @@
           <div class="hud-phase" id="hudPhase">Apertura</div>
           <div class="hud-time" id="hudTime">00:00</div>
         </div>
-        <div class="cam-active-lanes-hud" id="camActiveLanesHud"></div>
       </div>
       <div class="cam-controls-top">
-        <button class="btn-close-cam" onclick="closeCamera()">✕</button>
+        <!-- Acceso directo a carpeta / descargas de la app -->
+        <button class="btn-cam-action" onclick="openDownloadsFolder()" title="Abrir Descargas / Galería">
+          <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <button class="btn-cam-action" onclick="closeCamera()">✕</button>
       </div>
     </div>
+    
     <div class="cam-hud-bottom">
       <div class="rec-counter" id="recCounter">REC 00:00 / 00:30</div>
-      <button class="shutter-btn" id="shutterBtn" onclick="toggleRecord()">
-        <div class="shutter-core" id="shutterCore"></div>
-      </button>
+      <div class="cam-bottom-bar">
+        <select class="select-limit-apex" id="clipDurationSelect">
+          <option value="10">10s</option>
+          <option value="20">20s</option>
+          <option value="30" selected>30s</option>
+          <option value="60">1m</option>
+          <option value="0">Libre</option>
+        </select>
+        <button class="shutter-btn" id="shutterBtn" onclick="toggleRecord()">
+          <div class="shutter-core" id="shutterCore"></div>
+        </button>
+      </div>
     </div>
   </div>
 
   <div class="modal-overlay" id="saveVideoModal">
-    <div class="modal-box" style="text-align: center;">
+    <div class="modal-box">
       <h2>Evidencia Táctica Lista</h2>
-      <p id="saveVideoText" style="text-align: center;">¿Deseas guardar este clip de 30s en tu galería?</p>
+      <p id="saveVideoText">¿Deseas guardar este clip en tu dispositivo?</p>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-cancel" onclick="discardVideo()">Descartar</button>
         <button class="modal-btn modal-btn-save" onclick="saveVideo()">Guardar Video</button>
@@ -387,9 +420,9 @@
   </div>
 
   <div class="modal-overlay" id="resetModal">
-    <div class="modal-box" style="text-align: center;">
+    <div class="modal-box">
       <h2>¿Reiniciar Clase?</h2>
-      <p style="text-align: center;">Se detendrá el cronómetro y el tiempo volverá a cero.</p>
+      <p>Se detendrá el cronómetro y el tiempo volverá a cero.</p>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-cancel" onclick="closeResetModal()">Cancelar</button>
         <button class="modal-btn modal-btn-danger" onclick="confirmReset()">Reiniciar</button>
@@ -399,6 +432,14 @@
 
   <script>
     let currentCoach = localStorage.getItem('apex_coach_name') || '';
+    let scrubberLocked = false;
+
+    function showToast(message) {
+      const toast = document.getElementById("toastAlert");
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
+    }
 
     function checkCoachAndProceed(actionCallback) {
       if (!currentCoach) {
@@ -428,18 +469,49 @@
       localStorage.removeItem('apex_coach_name');
       currentCoach = '';
       toggleSettings();
-      alert("Sesión de coach cerrada con éxito.");
+      showToast("Sesión de coach cerrada");
     }
 
+    function openDownloadsFolder() {
+      // Intenta abrir el administrador de descargas o un aviso para buscar en el sistema
+      showToast("Revisa tu carpeta de Descargas del dispositivo");
+      // Si el navegador soporta mostrar descargas
+      const a = document.createElement('a');
+      a.href = '#';
+      a.download = '';
+      try { a.click(); } catch(e){}
+    }
+
+    // BASE DE DATOS MAESTRA COMPLETA (Pilares, Semanas, Niveles, Biomecánica y Debate)
     const sesionesData = [
       {
         id: "cf_sem1", title: "Condición Física - Semana 1", pilar: "Condición Física", semana: 1,
         niveles: {
-          "Iniciado": { cuerda: "5 rounds x (1m salto suave / 1m descanso).", aprox1: "Movilidad articular: cadera 90/90, tobillos", aprox2: "Isometría cervical manual", ejercicios: ["Sentadilla pared", "Flexión inclinada", "Plancha"], foco: "Tensión estática", biomecanica: "Respiración diafragmática y presión IAP", debate: "¿Cómo cambia tu estabilidad al inhalar empujando el abdomen?" },
-          "Intermedio": { cuerda: "5 rounds x (1m15s salto rítmico / 45s desc).", aprox1: "Movilidad dinámica de cadera", aprox2: "Activación escapular con bandas", ejercicios: ["Sentadilla tempo", "Flexión estricta", "Plancha toques"], foco: "Fuerza isométrica", biomecanica: "Control excéntrico de cuádriceps", debate: "¿Por qué bajar en 3 segundos construye más fuerza?" },
-          "Avanzado": { cuerda: "5 rounds x (1m30s salto continuo / 30s desc).", aprox1: "Movilidad bajo carga ligera", aprox2: "Activación rotacional con mancuernas", ejercicios: ["Sentadilla isométrica rotacional", "Flexión pausa 3s", "Giros rusos"], foco: "Fuerza isométrica profunda", biomecanica: "Rigidez del core y unidades motoras", debate: "¿Cómo absorbes impactos pesados sin retroceder?" },
-          "Apex": { cuerda: "5 rounds x (1m45s salto intenso / 15s desc).", aprox1: "Movilidad con autocarga pesada", aprox2: "Activación explosiva de tríceps", ejercicios: ["Sentadilla profunda pesada", "Flexión palmada", "Plancha puños"], foco: "Potencia elástica", biomecanica: "Tasa de desarrollo de fuerza (RFD)", debate: "¿Diferencia entre empujar y detonar un golpe?" },
-          "Apex+": { cuerda: "5 rounds x (1m50s salto con sobrecarga / 10s desc).", aprox1: "Movilidad avanzada con lastre", aprox2: "Sentadilla con salto reactivo", ejercicios: ["Sentadilla con salto", "Flexión lastrada", "Hollow rock"], foco: "RFD máxima", biomecanica: "Blindaje de cadena anterior", debate: "¿Cómo mantienes estructura bajo máxima velocidad?" }
+          "Iniciado": { cuerda: "5 rounds x (1m salto suave / 1m descanso). R1-R4 ritmo suave, R5 máxima intensidad individual.", aprox1: "Movilidad articular: cadera 90/90, tobillos y muñecas (3 min)", aprox2: "Isometría cervical manual en 4 direcciones (3 min)", ejercicios: ["Sentadilla pared", "Flexión inclinada banco", "Plancha"], foco: "Tensión estática sin impacto", biomecanica: "Biomecánica de la respiración diafragmática y presión intraabdominal (IAP) para soporte lumbar", debate: "¿Cómo cambia tu estabilidad cuando inhalas empujando el abdomen hacia el suelo vs. cuando metes la barriga?" },
+          "Intermedio": { cuerda: "5 rounds x (1m15s salto rítmico / 45s descanso). R1-R3 ritmo medio, R4 aceleración, R5 sprint.", aprox1: "Movilidad dinámica de cadera y rodillas en sentadilla profunda (3 min)", aprox2: "Activación escapular con bandas elásticas en W y T (3 min)", ejercicios: ["Sentadilla tempo (3-1-1)", "Flexión estricta en suelo", "Plancha con toque hombros"], foco: "Fuerza isométrica y control de tronco", biomecanica: "Control excéntrico del cuádriceps en fase de bajada y estabilización lumbo-pélvica anti-rotatoria", debate: "¿Por qué bajar en 3 segundos controlados construye mucha más fuerza y estabilidad que dejarse caer rápido?" },
+          "Avanzado": { cuerda: "5 rounds x (1m30s salto continuo / 30s descanso). R1-R3 ritmo alto con cruces, R4 cambios de compás, R5 sprint máximo.", aprox1: "Movilidad articular bajo carga ligera y sentadilla isométrica profunda (3 min)", aprox2: "Activación rotacional con mancuernas ligeras en posición de combate (3 min)", ejercicios: ["Sentadilla isométrica al aire rotacional", "Flexión pausa 3s", "Giros rusos con carga"], foco: "Fuerza isométrica profunda y anti-rotación", biomecanica: "Fuerza isométrica profunda, reclutamiento de unidades motoras de alto umbral y rigidez del core", debate: "¿De qué manera una postura isométrica sólida te permite absorber impactos pesados sin retroceder un milímetro?" },
+          "Apex": { cuerda: "5 rounds x (1m45s salto intenso / 15s descanso). R1-R3 saltos dobles continuos, R4 cambios de dirección, R5 potencia pura.", aprox1: "Movilidad articular con autocarga pesada y apertura de cadera (3 min)", aprox2: "Activación explosiva de tríceps y serratos en suelo (3 min)", ejercicios: ["Sentadilla profunda pesada", "Flexión palmada", "Plancha sobre puños con rodilla"], foco: "Tensión máxima y potencia elástica", biomecanica: "Tasa de desarrollo de fuerza (RFD) máxima y reclutamiento de fibras tipo IIb bajo sobrecarga neuromuscular", debate: "¿Qué diferencia biomecánica hay entre un golpe que simplemente 'empuja' vs. uno que 'penetra y detona'?" },
+          "Apex+": { cuerda: "5 rounds x (1m50s salto con sobrecarga en muñecas/tobillos / 10s descanso). R1-R3 dobles continuos, R4 triples, R5 potencia balística pura.", aprox1: "Movilidad avanzada con sobrecarga externa y activación de core (3 min)", aprox2: "Sentadillas con sobrecarga y salto pliométrico inmediato (3 min)", ejercicios: ["Sentadilla pesada con salto reactivo", "Flexión déficit/lastre", "Hollow rock con peso"], foco: "RFD máxima y blindaje total de la cadena anterior", biomecanica: "Tasa de desarrollo de fuerza (RFD) máxima y blindaje total de la cadena anterior bajo tensión ininterrumpida", debate: "¿Cómo se siente en el cuerpo mantener una estructura completamente blindada mientras te mueves a máxima velocidad?" }
+        }
+      },
+      {
+        id: "tec_sem1", title: "Técnica - Semana 1", pilar: "Técnica", semana: 1,
+        niveles: {
+          "Iniciado": { cuerda: "5 rounds x (1m salto suave / 1m descanso).", aprox1: "Movilidad de tobillos y rotación de cadera", aprox2: "Guardia estática frente a espejo", ejercicios: ["Guardia estática", "Paso plano adelante/atrás", "Pasos laterales"], foco: "Base 50/50 y equilibrio", biomecanica: "Vendaje anatómico funcional y túnel carpiano", debate: "¿Por qué apretar el puño tras vendarte debe sentirse como piedra?" },
+          "Intermedio": { cuerda: "5 rounds x (1m15s salto péndulo / 45s desc).", aprox1: "Tendón de Aquiles y movilidad de tobillos", aprox2: "Paso péndulo adelante y atrás", ejercicios: ["Paso péndulo rítmico", "Diagonal", "Fintas de jab"], foco: "Fluidez de desplazamiento", biomecanica: "Resonancia viscoelástica del tendón de Aquiles", debate: "¿Cómo encuentras el ritmo justo del péndulo sin quemar pantorrillas?" },
+          "Avanzado": { cuerda: "5 rounds x (1m30s salto técnico / 30s desc).", aprox1: "Pivotes sobre metatarso", aprox2: "Pasos laterales con amague y quiebre", ejercicios: ["Pivote pie adelantado", "Cambio de guardia", "Ángulos ciegos"], foco: "Posicionamiento y cambio de línea", biomecanica: "Desplazamiento helicoidal y momentos de inercia", debate: "¿Cómo usar un pivote para que el rival golpee al aire?" },
+          "Apex": { cuerda: "5 rounds x (1m45s salto con fintas / 15s desc).", aprox1: "Propiocepción y engaño de peso", aprox2: "Fintas de entrada y salida rápida", ejercicios: ["Pasos laterales con engaño", "Fintas de paso", "Salida en ángulo"], foco: "Dominio del engaño visual", biomecanica: "Ocultamiento cinemático de intenciones motrices", debate: "¿Cómo mover los pies manteniendo hombros y mirada neutros?" },
+          "Apex+": { cuerda: "5 rounds x (1m50s salto de élite / 10s desc).", aprox1: "Movilidad omnidireccional fluida", aprox2: "Sombra técnica a máxima velocidad", ejercicios: ["Movilidad omnidireccional", "Dominio cuerdas/centro", "Cambios de ritmo"], foco: "Fluidez espacial sin interrupción", biomecanica: "Economía motriz de élite sin variar centro de gravedad", debate: "¿Cómo moverte por el ring manteniendo la misma altura?" }
+        }
+      },
+      {
+        id: "spa_sem1", title: "Sparring - Semana 1", pilar: "Sparring", semana: 1,
+        niveles: {
+          "Iniciado": { cuerda: "5 rounds x (1m salto suave / 1m descanso).", aprox1: "Movilidad ocular y enfoque periférico", aprox2: "Simulación de distancia larga", ejercicios: ["Toques a hombros", "Toques al pecho", "Desplazamiento circular"], foco: "Control de distancia segura", biomecanica: "Supresión refleja del cierre palpebral", debate: "¿Cómo mantener los ojos abiertos cuando una mano viene a la cara?" },
+          "Intermedio": { cuerda: "5 rounds x (1m15s salto reactivo / 45s desc).", aprox1: "Activación vestibular y giros de cabeza", aprox2: "Distancia de seguridad y defensa 1-2", ejercicios: ["Sparring condicionado 1-2", "Bloqueo antebrazos", "Parry exclusivo"], foco: "Reacción táctil condicionada", biomecanica: "Co-contracción de bíceps y tríceps braquial", debate: "¿Cómo tensar los brazos al instante sin quemar energía?" },
+          "Avanzado": { cuerda: "5 rounds x (1m30s salto táctico / 30s desc).", aprox1: "Activación neuromuscular reactiva", aprox2: "Defensa de contragolpe tras salida", ejercicios: ["Esquiva en U", "Contra al hígado", "Salida lateral"], foco: "Castigo al error defensivo rival", biomecanica: "Tiempo de reacción de elección (Choice Reaction Time)", debate: "¿Qué clave visual indica que debes disparar tu contragolpe?" },
+          "Apex": { cuerda: "5 rounds x (1m45s salto de combate / 15s desc).", aprox1: "Activación de cuello y hombros", aprox2: "Manejo de distancia corta", ejercicios: ["Sparring bajo presión", "Contragolpe atrás", "Salidas laterales"], foco: "Templanza y eficacia bajo asedio", biomecanica: "Gestión de equilibrio dinámico retrocediendo", debate: "¿Cómo hacer que el rival sienta que entra a una trampa?" },
+          "Apex+": { cuerda: "5 rounds x (1m50s salto de campeonato / 10s desc).", aprox1: "Activación frente a estímulos visuales", aprox2: "Sparring rotativo con rival fresco", ejercicios: ["Asalto rotativo", "Estilos mixtos", "Ritmo sin pausa"], foco: "Sobrecarga cognitiva y adaptación", biomecanica: "Adaptación táctica instantánea ante cambio de biotipo", debate: "¿Qué ajustes haces al cambiar de rival agresivo a elusivo?" }
         }
       }
     ];
@@ -453,16 +525,15 @@
     });
 
     const configNiveles = {
-      'Iniciado':   { id: 'iniciado',   name: "Iniciados", active: true, prevIdx: -1 },
-      'Intermedio': { id: 'intermedio', name: "Intermedio", active: true, prevIdx: -1 },
-      'Avanzado':   { id: 'avanzado',   name: "Avanzado",   active: true, prevIdx: -1 },
-      'Apex':       { id: 'apex',       name: "Apex",       active: true, prevIdx: -1 },
-      'Apex+':      { id: 'apex_plus',  name: "Apex +",    active: true, prevIdx: -1 }
+      'Iniciado':   { id: 'iniciado',   name: "Iniciados", active: true },
+      'Intermedio': { id: 'intermedio', name: "Intermedio", active: true },
+      'Avanzado':   { id: 'avanzado',   name: "Avanzado",   active: true },
+      'Apex':       { id: 'apex',       name: "Apex",       active: true },
+      'Apex+':      { id: 'apex_plus',  name: "Apex +",    active: true }
     };
 
     let settingsOpen = false;
     let voiceEnabled = true;
-    let scrubberLocked = false;
 
     function toggleSettings() {
       settingsOpen = !settingsOpen;
@@ -473,6 +544,7 @@
     }
 
     function toggleVoice(enabled) { voiceEnabled = enabled; if (!enabled) window.speechSynthesis.cancel(); }
+    function toggleScrubberLock(isLocked) { scrubberLocked = isLocked; }
 
     function speak(text) {
       if (!voiceEnabled || !('speechSynthesis' in window)) return;
@@ -496,6 +568,9 @@
     let elapsedBeforePause = 0;
     let lastSecondReported = -1;
 
+    // Puntos de anclaje magnético (Bloques de la clase en segundos)
+    const blockSnapPoints = [0, 600, 780, 960, 2640, 3000];
+
     const T_APERTURA_FIN = 10 * 60;
     const T_APROX1_FIN   = 13 * 60;
     const T_APROX2_FIN   = 16 * 60;
@@ -511,14 +586,15 @@
     }
 
     function openDetailModal(nivelKey) {
-      const sesion = sesionesData[0];
+      const sesionId = document.getElementById("classSelector").value;
+      const sesion = sesionesData.find(s => s.id === sesionId) || sesionesData[0];
       const taskData = sesion.niveles[nivelKey] || sesion.niveles["Iniciado"];
       document.getElementById("detailModalTitle").textContent = `Nivel: ${nivelKey}`;
       document.getElementById("detailModalContent").innerHTML = `
         <strong>Cuerda:</strong> ${taskData.cuerda}<br><br>
         <strong>Aprox 1:</strong> ${taskData.aprox1}<br><br>
         <strong>Aprox 2:</strong> ${taskData.aprox2}<br><br>
-        <strong>Ejercicios:</strong> ${taskData.ejercicios.join(" | ")}<br><br>
+        <strong>Ejercicios:</strong> ${taskData.ejercicios ? taskData.ejercicios.join(" | ") : ''}<br><br>
         <strong>Biomecánica:</strong> ${taskData.biomecanica}<br><br>
         <strong>Debate:</strong> ${taskData.debate}
       `;
@@ -552,8 +628,8 @@
             </div>
             <div class="lane-time" id="time_${n.id}">01:00</div>
           </div>
-          <div class="feed-viewport" id="viewport_${n.id}">
-            <div class="feed-slot slot-current" id="slotA_${n.id}">
+          <div class="feed-viewport">
+            <div class="feed-slot slot-current">
               <div class="lane-task-desc" id="taskA_${n.id}">--</div>
               <div class="lane-biomech-row">
                 <span class="lane-biomech-label">BIOMEC</span>
@@ -566,45 +642,49 @@
       }
     }
 
-    function updateLaneData(k, secInCycle, isRestRound, faseTipo, roundIdx, remGeneral = 0) {
+    function updateLaneData(k, totalSec, isRestRound, faseTipo, roundIdx, remGeneral = 0) {
       const n = configNiveles[k];
       const card = document.getElementById(`lane_${n.id}`);
       if (card) card.className = `lane-card ${n.active ? '' : 'muted'}`;
       
-      const sesion = sesionesData[0];
+      const sesionId = document.getElementById("classSelector").value;
+      const sesion = sesionesData.find(s => s.id === sesionId) || sesionesData[0];
       const taskData = sesion.niveles[k] || sesion.niveles["Iniciado"];
       
-      let workSec = 60, rem = 0;
-      if (faseTipo === "APERTURA") rem = workSec - secInCycle;
-      else if (faseTipo === "APROX1" || faseTipo === "APROX2" || faseTipo === "CIERRE") rem = remGeneral;
-      else if (faseTipo === "CUERPO") rem = isRestRound ? Math.max(0, 60 - secInCycle) : (workSec - secInCycle);
+      let workSec = 60, rem = 0, currentDesc = "";
+      if (faseTipo === "APERTURA") {
+        rem = workSec - (totalSec % 120);
+        currentDesc = `R${roundIdx+1}: Cuerda Táctica`;
+      } else if (faseTipo === "APROX1") {
+        rem = remGeneral;
+        currentDesc = taskData.aprox1;
+      } else if (faseTipo === "APROX2") {
+        rem = remGeneral;
+        currentDesc = taskData.aprox2;
+      } else if (faseTipo === "CUERPO") {
+        const cuerpoSec = totalSec - T_APROX2_FIN;
+        const roundSec = cuerpoSec % 420;
+        if (isRestRound) {
+          rem = Math.max(0, 60 - roundSec);
+          currentDesc = "Descanso Inter-Round";
+        } else {
+          rem = workSec - (roundSec % 120);
+          const ejIdx = Math.floor(roundSec / 120) % 3;
+          currentDesc = taskData.ejercicios ? taskData.ejercicios[ejIdx] : "Trabajo Cuerpo";
+        }
+      } else {
+        rem = remGeneral;
+        currentDesc = "Biomecánica y Debate";
+      }
 
       const mins = Math.floor(rem / 60).toString().padStart(2, '0');
       const secs = (rem % 60).toString().padStart(2, '0');
       const timeElem = document.getElementById(`time_${n.id}`);
       if (timeElem) timeElem.textContent = `${mins}:${secs}`;
       
-      document.getElementById(`taskA_${n.id}`).textContent = faseTipo === "APERTURA" ? `R${roundIdx+1}: Cuerda Táctica` : taskData.aprox1;
+      document.getElementById(`taskA_${n.id}`).textContent = currentDesc;
       document.getElementById(`bioTxtA_${n.id}`).textContent = taskData.biomecanica;
-    }
-
-    function updateCameraActiveLanesHUD(totalSec) {
-      const container = document.getElementById("camActiveLanesHud");
-      if (!container) return;
-      container.innerHTML = "";
-
-      for (let k in configNiveles) {
-        const n = configNiveles[k];
-        if (!n.active) continue;
-        const taskData = sesionesData[0].niveles[k];
-        const item = document.createElement("div");
-        item.className = "cam-live-hud";
-        item.innerHTML = `
-          <div class="hud-live-title"><span>${n.name.toUpperCase()}</span><span>●</span></div>
-          <div class="hud-live-desc">${taskData.cuerda.split('.')[0]}</div>
-        `;
-        container.appendChild(item);
-      }
+      return currentDesc;
     }
 
     function handleStartButton() {
@@ -638,12 +718,23 @@
       document.getElementById("btnStart").style.background = "var(--accent)";
       document.getElementById("sessionScrubber").value = 0;
       actualizarVista(0, false);
+      showToast("Cronómetro reiniciado");
     }
     function onClassChange() { actualizarVista(parseInt(document.getElementById("sessionScrubber").value, 10), false); }
 
     function onScrub(val) {
       if (scrubberLocked) return;
-      const scrubSec = parseInt(val, 10);
+      let scrubSec = parseInt(val, 10);
+      
+      // Anclaje Magnético Apex (Umbral de 10 segundos)
+      for (const pt of blockSnapPoints) {
+        if (Math.abs(scrubSec - pt) <= 10) {
+          scrubSec = pt;
+          document.getElementById("sessionScrubber").value = pt;
+          break;
+        }
+      }
+
       if (isRunning) { worker.postMessage('stop'); isRunning = false; document.getElementById("btnStart").textContent = "Reanudar"; }
       elapsedBeforePause = scrubSec * 1000; startTime = performance.now(); lastSecondReported = scrubSec;
       actualizarVista(scrubSec, true);
@@ -657,26 +748,28 @@
       document.getElementById("scrubberPosLabel").textContent = `${formatted} / 50:00`;
       if (!isScrubbing) document.getElementById("sessionScrubber").value = totalSec;
 
-      updateCameraActiveLanesHUD(totalSec);
       const isR5 = (totalSec >= 480 && totalSec < 600);
       document.getElementById("clockBox").classList.toggle("sprint-active", isR5);
 
       let phaseText = "Apertura · Cuerda", hudPhaseText = "Cuerda";
       if (totalSec < T_APERTURA_FIN) {
         phaseText = isR5 ? "⚡ SPRINT R5" : `Asalto ${Math.floor(totalSec / 120) + 1} de 5`;
-        for (let k in configNiveles) updateLaneData(k, totalSec % 120, false, "APERTURA", Math.floor(totalSec / 120));
+        for (let k in configNiveles) updateLaneData(k, totalSec, false, "APERTURA", Math.floor(totalSec / 120));
       } else if (totalSec < T_APROX1_FIN) {
         phaseText = "Aproximación 1 · Movilidad"; hudPhaseText = "Aprox 1";
-        for (let k in configNiveles) updateLaneData(k, 0, false, "APROX1", 0, T_APROX1_FIN - totalSec);
+        for (let k in configNiveles) updateLaneData(k, totalSec, false, "APROX1", 0, T_APROX1_FIN - totalSec);
       } else if (totalSec < T_APROX2_FIN) {
         phaseText = "Aproximación 2 · Activación"; hudPhaseText = "Aprox 2";
-        for (let k in configNiveles) updateLaneData(k, 0, false, "APROX2", 0, T_APROX2_FIN - totalSec);
+        for (let k in configNiveles) updateLaneData(k, totalSec, false, "APROX2", 0, T_APROX2_FIN - totalSec);
       } else if (totalSec < T_CUERPO_FIN) {
         phaseText = "Cuerpo de Clase"; hudPhaseText = "Cuerpo";
-        for (let k in configNiveles) updateLaneData(k, 0, false, "CUERPO", 0);
+        const cuerpoSec = totalSec - T_APROX2_FIN;
+        const roundSec = cuerpoSec % 420;
+        const isRest = (roundSec >= 360);
+        for (let k in configNiveles) updateLaneData(k, totalSec, isRest, "CUERPO", 0);
       } else {
         phaseText = "Cierre · Debate y Biomecánica"; hudPhaseText = "Cierre";
-        for (let k in configNiveles) updateLaneData(k, 0, false, "CIERRE", 0, T_CIERRE_FIN - totalSec);
+        for (let k in configNiveles) updateLaneData(k, totalSec, false, "CIERRE", 0, T_CIERRE_FIN - totalSec);
       }
 
       document.getElementById("phaseLabel").textContent = phaseText;
@@ -692,14 +785,15 @@
       actualizarVista(totalSec, false);
     };
 
-    // Cámara Táctica V7 (30s Fijos + HUD Translúcido Puro sin Rectángulos)
+    // Cámara Táctica V10 (HUD con Cronómetros y Tareas Activas en tiempo real)
     let mediaStream = null;
     let mediaRecorder = null;
     let recordedChunks = [];
     let isRecording = false;
     let recordStartTime = 0;
     let recordInterval = null;
-    const clipLimitSeconds = 30;
+    let clipLimitSeconds = 30;
+    let isFreeMode = false;
     let latestBlobUrl = null;
     let canvasAnimId = null;
     let renderCanvas = null;
@@ -747,6 +841,10 @@
 
     function startRecording() {
       recordedChunks = [];
+      const limitVal = parseInt(document.getElementById("clipDurationSelect").value, 10);
+      isFreeMode = (limitVal === 0);
+      clipLimitSeconds = isFreeMode ? 0 : limitVal;
+
       const videoElement = document.getElementById("cameraFeed");
       renderCanvas = document.getElementById("renderCanvas");
       renderCanvas.width = videoElement.videoWidth || 1280;
@@ -777,7 +875,6 @@
         if (renderCtx && videoElement.readyState >= 2) {
           renderCtx.drawImage(videoElement, 0, 0, renderCanvas.width, renderCanvas.height);
           
-          // HUD Pura Tipografía (Sin cuadros ni rectángulos de fondo)
           renderCtx.save();
           renderCtx.shadowColor = "rgba(0, 0, 0, 0.9)";
           renderCtx.shadowBlur = 6;
@@ -785,16 +882,31 @@
           renderCtx.shadowOffsetY = 2;
 
           renderCtx.fillStyle = "#aaaaaa";
-          renderCtx.font = "bold 22px -apple-system, sans-serif";
-          renderCtx.fillText((document.getElementById("hudPhase").textContent || "APERTURA").toUpperCase(), 50, 70);
+          renderCtx.font = "bold 20px -apple-system, sans-serif";
+          renderCtx.fillText((document.getElementById("hudPhase").textContent || "APERTURA").toUpperCase(), 50, 50);
 
           renderCtx.fillStyle = "#ffffff";
-          renderCtx.font = "900 64px -apple-system, monospace";
-          renderCtx.fillText(document.getElementById("hudTime").textContent || "00:00", 50, 140);
+          renderCtx.font = "900 54px -apple-system, monospace";
+          renderCtx.fillText(document.getElementById("hudTime").textContent || "00:00", 50, 110);
 
           renderCtx.fillStyle = "#e50914";
-          renderCtx.font = "bold 20px -apple-system, sans-serif";
-          renderCtx.fillText(`COACH: ${currentCoach}`, 50, 180);
+          renderCtx.font = "bold 18px -apple-system, sans-serif";
+          renderCtx.fillText(`COACH: ${currentCoach}`, 50, 145);
+
+          // Renderizar cronómetros y tareas en vivo de cada nivel activo sobre el video
+          let offsetY = 185;
+          const totalSec = Math.floor((elapsedBeforePause + (isRunning ? (performance.now() - startTime) : 0)) / 1000);
+          for (let k in configNiveles) {
+            const n = configNiveles[k];
+            if (!n.active) continue;
+            const timeStr = document.getElementById(`time_${n.id}`).textContent || "00:00";
+            const taskStr = document.getElementById(`taskA_${n.id}`).textContent || "";
+            
+            renderCtx.fillStyle = "#ffffff";
+            renderCtx.font = "bold 16px -apple-system, sans-serif";
+            renderCtx.fillText(`• ${n.name.toUpperCase()} [${timeStr}]: ${taskStr}`, 50, offsetY);
+            offsetY += 26;
+          }
           
           renderCtx.restore();
         }
@@ -804,8 +916,12 @@
 
       recordInterval = setInterval(() => {
         const elapsed = Math.floor((performance.now() - recordStartTime) / 1000);
-        document.getElementById("recCounter").textContent = `REC 00:${elapsed.toString().padStart(2, '0')} / 00:${clipLimitSeconds.toString().padStart(2, '0')}`;
-        if (elapsed >= clipLimitSeconds) stopRecording(true);
+        if (isFreeMode) {
+          document.getElementById("recCounter").textContent = `REC 00:${Math.floor(elapsed/60).toString().padStart(2,'0')}:${(elapsed%60).toString().padStart(2, '0')}`;
+        } else {
+          document.getElementById("recCounter").textContent = `REC 00:${elapsed.toString().padStart(2, '0')} / 00:${clipLimitSeconds.toString().padStart(2, '0')}`;
+          if (elapsed >= clipLimitSeconds) stopRecording(true);
+        }
       }, 500);
     }
 
@@ -824,6 +940,8 @@
       if (this.promptSave && recordedChunks.length > 0) {
         const blob = new Blob(recordedChunks, { type: 'video/mp4' });
         latestBlobUrl = URL.createObjectURL(blob);
+        const durationText = isFreeMode ? "libre" : `${clipLimitSeconds}s`;
+        document.getElementById("saveVideoText").textContent = `¿Deseas guardar este clip (${durationText}) en tu dispositivo?`;
         document.getElementById("saveVideoModal").classList.add("open");
       }
     }
@@ -834,7 +952,7 @@
       a.style.display = "none";
       a.href = latestBlobUrl;
       const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-      a.download = `CronoApex_V7_${timestamp}.mp4`;
+      a.download = `CronoApex_V10_${timestamp}.mp4`;
       document.body.appendChild(a);
       a.click();
       setTimeout(() => {
@@ -842,11 +960,13 @@
         URL.revokeObjectURL(latestBlobUrl);
       }, 100);
       document.getElementById("saveVideoModal").classList.remove("open");
+      showToast("Video guardado correctamente");
     }
 
     function discardVideo() {
       if (latestBlobUrl) URL.revokeObjectURL(latestBlobUrl);
       document.getElementById("saveVideoModal").classList.remove("open");
+      showToast("Clip descartado");
     }
 
     initLanesDOM();
