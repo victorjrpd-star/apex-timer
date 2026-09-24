@@ -186,7 +186,8 @@
     }
     .lane-next-label { font-weight: 800; text-transform: uppercase; color: #555555; font-size: 0.62rem; }
 
-    .controls-wrap { display: flex; gap: 10px; }
+    /* CONTROLES PRINCIPALES (ÚNICO BLOQUE) */
+    .controls-wrap { display: flex; gap: 10px; margin-top: 4px; margin-bottom: 12px; }
     .btn {
       flex: 1; padding: 14px; font-size: 0.95rem; font-weight: 900; text-transform: uppercase;
       border: none; border-radius: 8px; cursor: pointer; letter-spacing: 1px;
@@ -446,8 +447,10 @@
     </div>
   </div>
 
+  <!-- CONTENEDOR EXCLUSIVO DE CARRILES MULTINIVEL -->
   <div class="lanes-list" id="lanesContainer"></div>
 
+  <!-- CONTROLES PRINCIPALES (ÚNICO BLOQUE LIMPIO) -->
   <div class="controls-wrap">
     <button class="btn btn-main" id="btnStart" onclick="togglePlay()">Iniciar Clase</button>
     <button class="btn btn-sub" onclick="openResetModal()">Reset</button>
@@ -964,7 +967,7 @@
 
     function initLanesDOM() {
       const cont = document.getElementById("lanesContainer");
-      cont.innerHTML = "";
+      cont.innerHTML = ""; // Limpieza estricta de carriles previos
 
       for (let k in configNiveles) {
         const n = configNiveles[k];
@@ -988,7 +991,7 @@
               <div class="lane-task-desc" id="taskA_${n.id}">--</div>
               <div class="lane-biomech-row" id="bioA_${n.id}">
                 <span class="lane-biomech-label">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                   BIOMEC
                 </span>
                 <span id="bioTxtA_${n.id}">--</span>
