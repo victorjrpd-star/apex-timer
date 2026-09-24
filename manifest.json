@@ -1,0 +1,26 @@
+{
+  "id": "crono-apex-tactical-v4",
+  "name": "Crono Apex Tactical",
+  "short_name": "Crono Apex",
+  "description": "Cronómetro multicanal y cámara táctica Apex",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0c0c0c",
+  "theme_color": "#0c0c0c",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
