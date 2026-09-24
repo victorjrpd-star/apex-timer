@@ -27,10 +27,14 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
     html, body { background: var(--bg); color: var(--text-main); padding: 12px; max-width: 600px; margin: 0 auto; user-select: none; overscroll-behavior-y: none; }
     
+    /* ENCABEZADO CON LOGO DESTACADO */
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
-    .brand-wrap { display: flex; align-items: center; gap: 8px; }
-    .header-logo { width: 30px; height: 30px; object-fit: contain; border-radius: 4px; }
-    .main-title { font-size: 1.25rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; }
+    .brand-wrap { display: flex; align-items: center; gap: 10px; }
+    .header-logo {
+      width: 44px; height: 44px; object-fit: cover; border-radius: 8px;
+      border: 1px solid #333; background: #000; flex-shrink: 0; display: block;
+    }
+    .main-title { font-size: 1.25rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; line-height: 1.15; }
     .main-title span { color: var(--accent); }
     
     .header-actions { display: flex; gap: 6px; align-items: center; }
@@ -57,6 +61,10 @@
     .setting-row span { color: var(--text-sub); font-size: 0.75rem; }
     
     .coach-input-box { width: 100%; padding: 8px 12px; background: #1c1c1c; border: 1px solid #444; border-radius: 6px; color: #fff; font-weight: 800; text-transform: uppercase; outline: none; margin-top: 4px; }
+    .config-select {
+      width: 100%; padding: 7px 10px; font-size: 0.78rem; font-weight: 800; background: #1c1c1c;
+      color: #fff; border: 1px solid #444; border-radius: 6px; outline: none; margin-top: 4px; text-transform: uppercase;
+    }
 
     .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
     .switch input { opacity: 0; width: 0; height: 0; }
@@ -248,20 +256,20 @@
       display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; max-width: 340px;
     }
 
-    /* OBTURADOR TÁCTICO CIRCULAR TIPO AVATAR APEX */
+    /* OBTURADOR CIRCULAR CON EL LOGO COMO NÚCLEO */
     .shutter-btn {
-      width: 76px; height: 76px; border-radius: 50%;
-      border: 3px solid rgba(255, 255, 255, 0.5);
+      width: 78px; height: 78px; border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.6);
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer; background: rgba(0, 0, 0, 0.7);
+      cursor: pointer; background: rgba(0, 0, 0, 0.8);
       transition: all 0.25s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-      flex-shrink: 0; position: relative; padding: 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.85);
+      flex-shrink: 0; position: relative; padding: 0; overflow: hidden;
     }
     .shutter-core {
-      width: 60px; height: 60px; border-radius: 50%;
+      width: 62px; height: 62px; border-radius: 50%;
       overflow: hidden; display: flex; align-items: center; justify-content: center;
-      position: relative; background: #000;
+      background: #111; border: 1px solid #333;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
       transition: all 0.25s ease;
     }
@@ -271,14 +279,13 @@
       transition: transform 0.25s ease, filter 0.25s ease;
     }
     
-    /* Estado GRABANDO: pulso rojo exterior y contracción táctica del logo */
     .shutter-btn.recording {
       border-color: var(--accent);
       animation: pulseShutter 1.4s infinite;
     }
     .shutter-btn.recording .shutter-core {
-      width: 46px; height: 46px;
-      box-shadow: 0 0 14px var(--accent);
+      width: 48px; height: 48px;
+      box-shadow: 0 0 16px var(--accent);
       border: 2px solid var(--accent);
     }
     .shutter-btn.recording .shutter-icon {
@@ -288,7 +295,7 @@
 
     @keyframes pulseShutter {
       0% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(229, 9, 20, 0); }
+      70% { box-shadow: 0 0 0 12px rgba(229, 9, 20, 0); }
       100% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0); }
     }
 
@@ -321,7 +328,7 @@
 
   <div class="header">
     <div class="brand-wrap">
-      <img src="icon.png" alt="Apex Logo" class="header-logo" onerror="this.style.display='none'">
+      <img src="icon.png" alt="Apex Logo" class="header-logo">
       <div class="main-title">Crono <span>Apex Tactical</span></div>
     </div>
     <div class="header-actions">
@@ -355,12 +362,32 @@
       </label>
     </div>
     <div class="setting-row">
-      <div>Tonos de Alerta (Pitidos / Beeps) <br><span>(Suenan siempre, incluso en WhatsApp)</span></div>
+      <div>Tonos de Alerta (Pitidos / Beeps) <br><span>(Suenan siempre, incluso minimizado)</span></div>
       <label class="switch">
         <input type="checkbox" id="beepsToggleCheck" checked onchange="toggleBeeps(this.checked)">
         <span class="slider-toggle"></span>
       </label>
     </div>
+
+    <!-- SUBSECCIÓN ACÚSTICA PERSONALIZABLE -->
+    <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 4px; border-top: 1px solid #222; padding-top: 8px;">
+      <div>Tipo de Tono Acústico <br><span>(Selecciona el sonido que mejor corte el ruido)</span></div>
+      <select id="beepTypeSelect" class="config-select" onchange="onBeepTypeChange(this.value)">
+        <option value="tabata">1. Chicharra Táctica / Tabata (Ultra Penetrante)</option>
+        <option value="bell">2. Campana de Boxeo (Metálica)</option>
+        <option value="military">3. Tono Cuadrado Militar (Agudo Directo)</option>
+        <option value="burst">4. Ráfaga 3 Beeps + Gong</option>
+      </select>
+    </div>
+
+    <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+      <div>Momento del Aviso Sonoro <br><span>(Define cuándo se activa la alerta acústica)</span></div>
+      <select id="beepTimingSelect" class="config-select" onchange="onBeepTimingChange(this.value)">
+        <option value="countdown">Cuenta Regresiva (Últimos 3s + Cambio)</option>
+        <option value="exact">Momento Exacto del Cambio (0s)</option>
+      </select>
+    </div>
+
     <div class="setting-row">
       <div>Audio Keep-Alive (Silencio) <br><span>(Evita suspensión en móviles)</span></div>
       <label class="switch">
@@ -465,9 +492,9 @@
           </div>
           <button class="manual-toggle-btn" id="manualToggleBtn" onclick="toggleManualMode()">Libre</button>
         </div>
-        <button class="shutter-btn" id="shutterBtn" onclick="toggleRecord()">
+        <button class="shutter-btn" id="shutterBtn" onclick="toggleRecord()" title="Disparador Apex">
           <div class="shutter-core" id="shutterCore">
-            <img src="icon.png" alt="Rec" class="shutter-icon" onerror="this.style.display='none'">
+            <img src="icon.png" alt="Rec Apex" class="shutter-icon">
           </div>
         </button>
       </div>
@@ -705,6 +732,11 @@
     let beepsEnabled = true;
     let keepAliveEnabled = true;
     let scrubberLocked = false;
+    let selectedBeepType = localStorage.getItem('apex_beep_type') || 'tabata';
+    let selectedBeepTiming = localStorage.getItem('apex_beep_timing') || 'countdown';
+
+    document.getElementById("beepTypeSelect").value = selectedBeepType;
+    document.getElementById("beepTimingSelect").value = selectedBeepTiming;
 
     function toggleSettings() {
       settingsOpen = !settingsOpen;
@@ -729,6 +761,18 @@
       beepsEnabled = enabled;
     }
 
+    function onBeepTypeChange(val) {
+      selectedBeepType = val;
+      localStorage.setItem('apex_beep_type', val);
+      enableBackgroundAudio();
+      triggerSoundFX(val, false);
+    }
+
+    function onBeepTimingChange(val) {
+      selectedBeepTiming = val;
+      localStorage.setItem('apex_beep_timing', val);
+    }
+
     function toggleKeepAlive(enabled) {
       keepAliveEnabled = enabled;
       if (!enabled) silentAudio.pause();
@@ -740,7 +784,7 @@
       if (keepAliveEnabled && silentAudio.paused) silentAudio.play().catch(() => {});
     }
 
-    // AUDIO CONTEXT & MEDIA SESSION (FONDO ACTIVO)
+    // MOTOR ACÚSTICO AVANZADO
     let audioCtx = null;
     function enableBackgroundAudio() {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -755,21 +799,90 @@
       }
     }
 
-    function playBeep(freq = 880, duration = 0.15) {
+    function triggerSoundFX(soundType = selectedBeepType, isPreAlert = false) {
       if (!beepsEnabled) return;
       try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
+        enableBackgroundAudio();
+        const ctx = audioCtx;
+        const now = ctx.currentTime;
+
+        if (isPreAlert) {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(950, now);
+          gain.gain.setValueAtTime(0.7, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.12);
+          return;
+        }
+
+        if (soundType === 'tabata') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.linearRampToValueAtTime(410, now + 0.38);
+          gain.gain.setValueAtTime(0.95, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.42);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.45);
+        } else if (soundType === 'bell') {
+          const freqs = [800, 1200, 1600, 2400];
+          const dur = 1.3;
+          freqs.forEach((f, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(f, now);
+            const initialGain = idx === 0 ? 0.85 : 0.4 / idx;
+            gain.gain.setValueAtTime(initialGain, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + dur);
+          });
+        } else if (soundType === 'military') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(1050, now);
+          gain.gain.setValueAtTime(0.9, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.32);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else if (soundType === 'burst') {
+          [0, 0.2, 0.4].forEach(d => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(880, now + d);
+            gain.gain.setValueAtTime(0.65, now + d);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + d + 0.1);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + d);
+            osc.stop(now + d + 0.1);
+          });
+          const finalOsc = ctx.createOscillator();
+          const finalGain = ctx.createGain();
+          finalOsc.type = 'sawtooth';
+          finalOsc.frequency.setValueAtTime(520, now + 0.65);
+          finalGain.gain.setValueAtTime(0.95, now + 0.65);
+          finalGain.gain.exponentialRampToValueAtTime(0.001, now + 1.15);
+          finalOsc.connect(finalGain);
+          finalGain.connect(ctx.destination);
+          finalOsc.start(now + 0.65);
+          finalOsc.stop(now + 1.2);
+        }
       } catch (e) {}
     }
 
@@ -1073,7 +1186,7 @@
         document.getElementById("btnStart").textContent = "Pausar";
         document.getElementById("btnStart").style.background = "#222";
         if (elapsedBeforePause === 0) {
-          playBeep(880, 0.25);
+          triggerSoundFX(selectedBeepType, false);
           speak("Todos, trabajo en tres, dos, uno");
         }
       }
@@ -1166,7 +1279,7 @@
         document.getElementById("exerciseLabel").textContent = taskIniciado.aprox1;
         
         if (!isScrubbing && totalSec === T_APERTURA_FIN) {
-          playBeep(660, 0.2);
+          triggerSoundFX(selectedBeepType, false);
           speak("Aproximación uno, movilidad y postura");
         }
         for (let k in configNiveles) updateLaneData(k, 0, false, "APROX1", 0, remAprox1);
@@ -1176,7 +1289,7 @@
         document.getElementById("exerciseLabel").textContent = taskIniciado.aprox2;
         
         if (!isScrubbing && totalSec === T_APROX1_FIN) {
-          playBeep(660, 0.2);
+          triggerSoundFX(selectedBeepType, false);
           speak("Aproximación dos, activación específica");
         }
         for (let k in configNiveles) updateLaneData(k, 0, false, "APROX2", 0, remAprox2);
@@ -1207,7 +1320,7 @@
 
         for (let k in configNiveles) updateLaneData(k, 0, false, "CIERRE", 0, remCierre);
         if (!isScrubbing && totalSec === T_CUERPO_FIN) {
-          playBeep(750, 0.3);
+          triggerSoundFX(selectedBeepType, false);
           speak("Cuerpo de clase completado. Iniciar Biomecánica, debate y check-in en la aplicación");
         }
       } else {
@@ -1217,7 +1330,7 @@
 
         for (let k in configNiveles) updateLaneData(k, 0, false, "CALMA", 0, remCalma);
         if (!isScrubbing && totalSec === T_CIERRE_FIN) {
-          playBeep(520, 0.4);
+          triggerSoundFX(selectedBeepType, false);
           speak("Inicio de vuelta a la calma, recogida de equipos y video Clan Apex");
         }
       }
@@ -1232,52 +1345,62 @@
       actualizarVista(totalSec, false);
     };
 
-    function evaluarVoz(sec, isRest, fase) {
-      if (isRest) return;
-
-      if (sec === 57 && configNiveles['Iniciado'].active) {
-        playBeep(700, 0.12);
-        speak("Iniciados, pausa en tres, dos, uno");
-      }
-
-      if (fase === "APERTURA" && sec === 72 && configNiveles['Intermedio'].active) {
-        playBeep(700, 0.12);
-        speak("Intermedio, pausa en tres, dos, uno");
-      } else if (fase === "CUERPO" && sec === 87 && configNiveles['Intermedio'].active) {
-        playBeep(700, 0.12);
-        speak("Intermedio, pausa en tres, dos, uno");
-      }
-
-      if (sec === 87 && configNiveles['Avanzado'].active) {
-        playBeep(700, 0.12);
-        speak("Avanzado, pausa en tres, dos, uno");
-      }
-
-      if (sec === 102 && configNiveles['Apex'].active) {
-        playBeep(700, 0.12);
-        speak("Apex, pausa en tres, dos, uno");
-      }
-
-      if (fase === "APERTURA" && sec === 107 && configNiveles['Apex+'].active) {
-        playBeep(700, 0.12);
-        speak("Apex +, pausa en tres, dos, uno");
-      }
-
-      if (sec === 117) {
-        playBeep(880, 0.2);
-        speak("Todos, trabajo en tres, dos, uno");
+    function ejecutarAvisoAcustico(sec, targetSec) {
+      if (!beepsEnabled) return;
+      if (selectedBeepTiming === 'countdown') {
+        if (sec === targetSec - 3 || sec === targetSec - 2 || sec === targetSec - 1) {
+          triggerSoundFX(selectedBeepType, true);
+        } else if (sec === targetSec) {
+          triggerSoundFX(selectedBeepType, false);
+        }
+      } else if (selectedBeepTiming === 'exact') {
+        if (sec === targetSec) {
+          triggerSoundFX(selectedBeepType, false);
+        }
       }
     }
 
+    function evaluarVoz(sec, isRest, fase) {
+      if (isRest) return;
+
+      if (configNiveles['Iniciado'].active) {
+        ejecutarAvisoAcustico(sec, 60);
+        if (sec === 57) speak("Iniciados, pausa en tres, dos, uno");
+      }
+
+      if (fase === "APERTURA" && configNiveles['Intermedio'].active) {
+        ejecutarAvisoAcustico(sec, 75);
+        if (sec === 72) speak("Intermedio, pausa en tres, dos, uno");
+      } else if (fase === "CUERPO" && configNiveles['Intermedio'].active) {
+        ejecutarAvisoAcustico(sec, 90);
+        if (sec === 87) speak("Intermedio, pausa en tres, dos, uno");
+      }
+
+      if (configNiveles['Avanzado'].active) {
+        ejecutarAvisoAcustico(sec, 90);
+        if (sec === 87) speak("Avanzado, pausa en tres, dos, uno");
+      }
+
+      if (configNiveles['Apex'].active) {
+        ejecutarAvisoAcustico(sec, 105);
+        if (sec === 102) speak("Apex, pausa en tres, dos, uno");
+      }
+
+      if (fase === "APERTURA" && configNiveles['Apex+'].active) {
+        ejecutarAvisoAcustico(sec, 110);
+        if (sec === 107) speak("Apex +, pausa en tres, dos, uno");
+      }
+
+      ejecutarAvisoAcustico(sec, 120);
+      if (sec === 117) speak("Todos, trabajo en tres, dos, uno");
+    }
+
     function evaluarDescanso(sec) {
-      if (sec === 0) {
-        playBeep(600, 0.25);
-        speak("Todos, descanso en tres, dos, uno");
-      }
-      if (sec === 57) {
-        playBeep(880, 0.2);
-        speak("Siguiente asalto, todos en tres, dos, uno");
-      }
+      ejecutarAvisoAcustico(sec, 0);
+      if (sec === 0) speak("Todos, descanso en tres, dos, uno");
+
+      ejecutarAvisoAcustico(sec, 60);
+      if (sec === 57) speak("Siguiente asalto, todos en tres, dos, uno");
     }
 
     // CÁMARA TÁCTICA CON RENDERIZADO POR CANVAS (Zero-Lag)
